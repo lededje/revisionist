@@ -1,0 +1,24 @@
+{
+  "name": "revisionist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lededje/revisionist.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lededje/revisionist/issues"
+  },
+  "homepage": "https://github.com/lededje/revisionist#readme",
+  "dependencies": {
+    "next": "^8.0.3",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4"
+  }
+}
