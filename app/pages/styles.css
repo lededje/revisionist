@@ -1,0 +1,87 @@
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+.calendar {
+  display: flex;
+}
+
+/* The labels to the left of the calendar on week and day views */
+
+.scale {
+  text-align: right;
+  padding-right: 5px;
+}
+
+.scale .step:first-child  .label {
+  display: none;
+}
+.step {
+  height: 48px;
+}
+
+.label {
+  display: block;
+  position: relative;
+  font-size: 12px;
+  top: -6px;
+}
+
+.day-container {
+  display: flex;
+  flex: 1;
+  position: relative;
+  background: repeating-linear-gradient(
+    0,
+    #fff,
+    #fff 47px,
+    #dadce0 48px,
+    #dadce0 48px
+  );
+  background-position: 0 0;
+  padding-left: 10px;
+}
+
+.day-container:before {
+  content: '';
+  position: absolute;
+  left: 10px;
+  top: 0;
+  bottom: 0;
+  border-left: 1px solid #dadce0;
+}
+
+.current-time-indicator {
+  border-top: 1px solid red;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 100;
+}
+
+.current-time-indicator:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  background: red;
+  height: 12px;
+  width: 12px;
+  border-radius: 6px;
+  transform: translate(-50%, -50%);
+}
+
+.day {
+  position: relative;
+  flex: 1;
+  border-right: 1px solid #dadce0;
+}
+
+.appointment {
+  position: absolute;
+  background: orange;
+  border-radius: 4px;
+  padding: 5px;
+  left: 0px;
+  right: 20px;
+}

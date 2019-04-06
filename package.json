@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "now-build": "next build app && next export app -o dist"
+    "now-build": "next build app && next export app -o dist",
+    "dev": "next app"
   },
   "repository": {
     "type": "git",
@@ -18,7 +19,10 @@
   },
   "homepage": "https://github.com/lededje/revisionist#readme",
   "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "moment": "^2.24.0",
     "next": "^8.0.3",
+    "normalize.css": "^8.0.1",
     "react": "^16.8.4",
     "react-dom": "^16.8.4"
   }
