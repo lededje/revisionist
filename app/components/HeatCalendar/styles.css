@@ -1,0 +1,25 @@
+.heat-calendar {
+  width: 200px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.day-container {
+  flex: 1 0 14.285714286%;
+}
+
+
+.day {
+  display: block;
+  position: relative;
+  width: 100%;
+  padding-top: 100%;
+}
+
+.label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 12px;
+}

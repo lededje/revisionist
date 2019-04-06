@@ -20,6 +20,7 @@
   "homepage": "https://github.com/lededje/revisionist#readme",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
+    "chroma-js": "^2.0.3",
     "moment": "^2.24.0",
     "next": "^8.0.3",
     "normalize.css": "^8.0.1",
