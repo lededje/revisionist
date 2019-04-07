@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  margin-left: 68px;
+}
+
+.day {
+  flex: 1;
+  height: 48px;
+  line-height: 48px;
+  text-align: center;
+  font-size: 14px;
+}
