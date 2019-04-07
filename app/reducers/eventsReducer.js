@@ -19,11 +19,27 @@ const initialState = {
     startTime: 'Thur Apr 11 2019 12:21:25 GMT+0200',
     duration: 7200,
     label: 'amet',
+  }, {
+    id: 4,
+    duration: 7200,
+    label: 'amet',
   }]
 };
 
 const eventsReducer = (state = initialState, action = {}) => {
   switch (action.type) {
+    case 'CREATE_EVENT': {
+      return {
+        ...state,
+        events: [
+          ...state.events,
+          {
+            label: action.label,
+            duration: action.duration,
+          },
+        ],
+      };
+    }
     default: return state;
   }
 };
