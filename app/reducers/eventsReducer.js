@@ -1,17 +1,17 @@
 const initialState = {
   events: [{
     id: 1,
-    start: 'Sat Apr 06 2019 9:21:25 GMT+0200',
+    startTime: 'Mon Apr 08 2019 9:21:25 GMT+0200',
     duration: 3600,
     label: 'Lorem',
   }, {
     id: 2,
-    start: 'Sat Apr 06 2019 12:21:25 GMT+0200',
+    startTime: 'Wed Apr 10 2019 21:00:25 GMT+0200',
     duration: 1800,
     label: 'dolor',
   }, {
     id: 2,
-    start: 'Sun Apr 07 2019 12:21:25 GMT+0200',
+    startTime: 'Tue Apr 09 2019 12:21:25 GMT+0200',
     duration: 1800,
     label: 'amet',
   }]

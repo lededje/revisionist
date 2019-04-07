@@ -1,9 +1,14 @@
 .calendar {
   display: flex;
+  flex-direction: column;
+}
+
+.body {
+  flex: 1;
+  display: flex;
 }
 
 /* The labels to the left of the calendar on week and day views */
-
 .scale {
   text-align: right;
   padding-right: 5px;
