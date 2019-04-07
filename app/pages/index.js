@@ -1,12 +1,25 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import moment from 'moment';
 
 import Calendar from '../components/Calendar';
 import HeatCalendar from '../components/HeatCalendar';
+import withRedux from '../components/withRedux';
 
-export default () => (
-  <>
-    <HeatCalendar date={moment()} />
-    <Calendar />
-  </>
+import styles from './styles.css';
+
+const index = () => (
+  <div className={styles.container}>
+    <aside>
+      <HeatCalendar date={moment().add(1, 'month')} />
+    </aside>
+    <main className={styles.main}>
+      <Calendar />
+    </main>
+  </div>
 );
+
+const connectedIndex = connect(state => ({
+}))(index);
+
+export default withRedux(connectedIndex);

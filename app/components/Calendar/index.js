@@ -55,7 +55,7 @@ const Day = ({ children }) => (
   </div>
 );
 
-const Appointment = ({ name, startTime, duration }) => {
+const Event = ({ name, startTime, duration }) => {
   const startOfDay = moment(startTime).startOf('day');
   const startTimeMinutesPastMidnight = moment(startTime).diff(startOfDay, 'minutes');
   const endTimeMinutesPastMidnight = moment(startTime).add(duration, 'seconds').diff(startOfDay, 'minutes');
@@ -67,7 +67,7 @@ const Appointment = ({ name, startTime, duration }) => {
     <div style={{
       top: `${ percentageThroughDayStart }%`,
       bottom: `${ 100 - percentageThroughDayEnd }%`
-    }} className={styles.appointment}>
+    }} className={styles.event}>
     { name }
     </div>
   );
@@ -77,13 +77,12 @@ export default () => (
   <Calendar>
     <Day>
       <CurrentTimeIndicator time={moment().toISOString()} />
-      <Appointment startTime={moment('Sat Apr 06 2019 3:21:25 GMT+0200').toISOString()} duration={3600*4} name="My event" />
     </Day>
     <Day>
-      <Appointment startTime={moment('Sat Apr 06 2019 9:21:25 GMT+0200').toISOString()} duration={3600/4*3} name="My event" />
+      <Event startTime={moment('Sat Apr 06 2019 9:21:25 GMT+0200').toISOString()} duration={3600/4*3} name="My event" />
     </Day>
     <Day>
-      <Appointment startTime={moment('Sat Apr 06 2019 9:21:25 GMT+0200').toISOString()} duration={3600/4*3} name="My event" />
+      <Event startTime={moment('Sat Apr 06 2019 9:21:25 GMT+0200').toISOString()} duration={3600/4*3} name="My event" />
     </Day>
   </Calendar>
 )

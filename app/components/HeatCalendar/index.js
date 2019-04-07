@@ -31,10 +31,13 @@ const HeatCalendar = ({ date }) => {
   const numberOfDaysInMonth = moment(date).daysInMonth();
 
   return (
-    <div className={styles['heat-calendar']}>
-      {new Array(firstOfTheMonthDayIndex).fill('').map((_, i) => <Day label="" blank />)}
-      {new Array(numberOfDaysInMonth).fill('').map((_, i) => <Day label={i + 1} percentage={Math.random()} />)}
-      {new Array(6 - lastOfTheMonthDayIndex).fill('').map((_, i) => <Day label="" blank />)}
+    <div>
+      <h1>{moment(date).format('MMMM YYYY')}</h1>
+      <div className={styles['heat-calendar']}>
+        {new Array(firstOfTheMonthDayIndex).fill('').map((_, i) => <Day label="" blank />)}
+        {new Array(numberOfDaysInMonth).fill('').map((_, i) => <Day label={i + 1} percentage={Math.random()} />)}
+        {new Array(6 - lastOfTheMonthDayIndex).fill('').map((_, i) => <Day label="" blank />)}
+      </div>
     </div>
   );
 }
