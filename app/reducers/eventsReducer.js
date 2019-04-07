@@ -10,9 +10,14 @@ const initialState = {
     duration: 1800,
     label: 'dolor',
   }, {
-    id: 2,
+    id: 3,
     startTime: 'Tue Apr 09 2019 12:21:25 GMT+0200',
     duration: 1800,
+    label: 'amet',
+  }, {
+    id: 4,
+    startTime: 'Thur Apr 11 2019 12:21:25 GMT+0200',
+    duration: 7200,
     label: 'amet',
   }]
 };

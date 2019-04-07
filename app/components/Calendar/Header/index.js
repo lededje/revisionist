@@ -7,7 +7,7 @@ const Header = ({ startDate, amountOfDays }) => (
   <section className={styles.header}>
     {
       new Array(amountOfDays).fill('').map((_, i) => (
-        <div className={styles.day}>{moment(startDate).add(i, 'days').format('ddd Mo')}</div>
+        <div className={styles.day}>{moment(startDate).add(i, 'days').format('ddd Do')}</div>
       ))
     }
   </section>

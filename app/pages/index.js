@@ -11,7 +11,7 @@ import styles from './styles.css';
 const index = ({ events }) => (
   <div className={styles.container}>
     <aside>
-      <HeatCalendar date={moment().add(1, 'month')} />
+      <HeatCalendar events={events} date={moment()} />
     </aside>
     <main className={styles.main}>
       <Calendar events={events} />
