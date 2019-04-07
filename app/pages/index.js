@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import isUndefined from 'lodash/isUndefined';
+import HTML5Backend from 'react-dnd-html5-backend'
+import { DragDropContext } from 'react-dnd'
 
 import Calendar from '../components/Calendar';
 import HeatCalendar from '../components/HeatCalendar';
@@ -65,4 +67,4 @@ const connectedIndex = connect(
   }),
 )(index);
 
-export default withRedux(connectedIndex);
+export default DragDropContext(HTML5Backend)(withRedux(connectedIndex));

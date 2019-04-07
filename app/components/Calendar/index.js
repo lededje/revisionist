@@ -2,15 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 
-import Event from '../Event';
-
 import Scale from './Scale';
 import CurrentTimeIndicator from './CurrentTimeIndicator';
 import Header from './Header';
+import WrappedEvent from './WrappedEvent';
+
+import { eventsType, eventsDefaultProps } from '../../types/event';
 
 import styles from './styles.css';
 
-const minutesInADay = 1440;
 
 const Day = ({ children }) => (
   <div className={styles.day}>
@@ -21,42 +21,6 @@ const Day = ({ children }) => (
 Day.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-const WrappedEvent = ({ label, startTime, duration }) => {
-  const startOfDay = moment(startTime).startOf('day');
-  const startTimeMinutesPastMidnight = moment(startTime).diff(startOfDay, 'minutes');
-  const endTimeMinutesPastMidnight = moment(startTime).add(duration, 'seconds').diff(startOfDay, 'minutes');
-
-  const percentageThroughDayStart = startTimeMinutesPastMidnight / minutesInADay * 100;
-  const percentageThroughDayEnd = endTimeMinutesPastMidnight / minutesInADay * 100;
-
-  return (
-    <div
-      style={{
-        top: `${percentageThroughDayStart}%`,
-        bottom: `${100 - percentageThroughDayEnd}%`,
-      }}
-      className={styles['event-wrapper']}
-    >
-      <Event label={label} className={styles.event} />
-    </div>
-  );
-};
-
-const eventType = {
-  startTime: PropTypes.string,
-  duration: PropTypes.number,
-  label: PropTypes.string,
-};
-
-const defaultEventProps = {
-  startTime: '',
-  duration: 0,
-  label: '',
-};
-
-WrappedEvent.propTypes = eventType;
-WrappedEvent.defaultProps = defaultEventProps;
 
 const Calendar = ({ events }) => {
   const startDate = moment().startOf('week');
@@ -89,11 +53,11 @@ const Calendar = ({ events }) => {
 };
 
 Calendar.propTypes = {
-  events: PropTypes.arrayOf(PropTypes.shape(eventType)),
+  ...eventsType,
 };
 
 Calendar.defaultProps = {
-  events: [],
+  ...eventsDefaultProps,
 };
 
 export default Calendar;
