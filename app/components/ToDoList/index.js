@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 
+import Event from '../Event';
+
+import styles from './styles.css';
+
 const onSubmit = (e, createEvent, setValue) => {
   e.preventDefault();
 
@@ -23,18 +27,14 @@ const ToDoList = ({ events, createEvent }) => {
   const [value, setValue] = useState('');
 
   return (
-    <div>
-    <h1>Todos</h1>
-    <ul>
-    { events.map(event => (
-      <li>
-      {event.label} {event.duration}
-      </li>
-    ))}
-    </ul>
-    <form onSubmit={(e) => onSubmit(e, createEvent, setValue)}>
-      <input type="text" name="label" value={value} onChange={(e) => onChange(e, setValue)} />
-    </form>
+    <div className={styles['todo-list']}>
+      <h1>Todos</h1>
+      { events.map(event => (
+        <Event className={styles.event} label={event.label} duration={event.duration} />
+      ))}
+      <form onSubmit={(e) => onSubmit(e, createEvent, setValue)}>
+        <input type="text" name="label" value={value} onChange={(e) => onChange(e, setValue)} />
+      </form>
     </div>
   )
 }

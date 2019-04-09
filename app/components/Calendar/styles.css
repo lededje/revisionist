@@ -78,11 +78,13 @@
   border-right: 1px solid #dadce0;
 }
 
-.event {
+.event-wrapper {
   position: absolute;
-  background: orange;
-  border-radius: 4px;
-  padding: 5px;
   left: 0px;
   right: 20px;
+  display: flex;
+}
+
+.event {
+  flex: 1;
 }

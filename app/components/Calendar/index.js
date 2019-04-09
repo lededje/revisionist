@@ -1,6 +1,8 @@
 import React from 'react';
 import moment from 'moment';
 
+import Event from '../Event';
+
 import Scale from './Scale';
 import CurrentTimeIndicator from './CurrentTimeIndicator';
 import Header from './Header';
@@ -27,7 +29,7 @@ const Calendar = ({ children, events }) => {
                 <Day>
                 {isToday && <CurrentTimeIndicator time={moment().toISOString()} />}
                 {events.filter((event) => moment(event.startTime).isSame(moment(startDate).add(i, 'days'), 'day')).map((event) => (
-                  <Event label={event.label} startTime={event.startTime} duration={event.duration} />
+                  <WrappedEvent label={event.label} startTime={event.startTime} duration={event.duration} />
                 ))}
                 </Day>
               );
@@ -45,7 +47,7 @@ const Day = ({ children }) => (
   </div>
 );
 
-const Event = ({ label, startTime, duration }) => {
+const WrappedEvent = ({ label, startTime, duration }) => {
   const startOfDay = moment(startTime).startOf('day');
   const startTimeMinutesPastMidnight = moment(startTime).diff(startOfDay, 'minutes');
   const endTimeMinutesPastMidnight = moment(startTime).add(duration, 'seconds').diff(startOfDay, 'minutes');
@@ -57,24 +59,10 @@ const Event = ({ label, startTime, duration }) => {
     <div style={{
       top: `${ percentageThroughDayStart }%`,
       bottom: `${ 100 - percentageThroughDayEnd }%`
-    }} className={styles.event}>
-    { label }
+    }} className={styles['event-wrapper']}>
+      <Event label={label} className={styles['event']} />
     </div>
   );
 }
 
 export default Calendar;
-
-// () => (
-//   <Calendar>
-//     <Day>
-//       <CurrentTimeIndicator time={moment().toISOString()} />
-//     </Day>
-//     <Day>
-//       <Event startTime={moment('Sat Apr 06 2019 9:21:25 GMT+0200').toISOString()} duration={3600/4*3} label="My event" />
-//     </Day>
-//     <Day>
-//       <Event startTime={moment('Sat Apr 06 2019 9:21:25 GMT+0200').toISOString()} duration={3600/4*3} label="My event" />
-//     </Day>
-//   </Calendar>
-// )
