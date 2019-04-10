@@ -39,6 +39,7 @@ Day.defaultProps = {
   blank: false,
 };
 
+
 const HeatCalendar = ({ date, events }) => {
   const eventCount = events.reduce((acc, event) => {
     const eventDate = moment(event.startTime).startOf('day').toISOString();

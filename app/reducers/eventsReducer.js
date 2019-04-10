@@ -1,3 +1,5 @@
+import omit from 'lodash/omit';
+
 const initialState = {
   events: [{
     id: 'cjld2cjxh0000qzrmn831i7rn',
@@ -39,6 +41,18 @@ const eventsReducer = (state = initialState, action = {}) => {
             duration: action.duration,
           },
         ],
+      };
+    }
+    case 'UPDATE_EVENT': {
+      return {
+        ...state,
+        events: state.events.map((event) => {
+          if (event.id !== action.id) return event;
+          return {
+            ...event,
+            ...omit(action, 'type'),
+          };
+        }),
       };
     }
     default: return state;

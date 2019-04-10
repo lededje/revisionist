@@ -6,21 +6,11 @@ import Scale from './Scale';
 import CurrentTimeIndicator from './CurrentTimeIndicator';
 import Header from './Header';
 import WrappedEvent from './WrappedEvent';
+import Day from './Day';
 
 import { eventsType, eventsDefaultProps } from '../../types/event';
 
 import styles from './styles.css';
-
-
-const Day = ({ children }) => (
-  <div className={styles.day}>
-    { children }
-  </div>
-);
-
-Day.propTypes = {
-  children: PropTypes.node.isRequired,
-};
 
 const Calendar = ({ events }) => {
   const startDate = moment().startOf('week');
@@ -37,10 +27,10 @@ const Calendar = ({ events }) => {
               const today = moment(startDate).add(i, 'days');
               const isToday = today.isSame(moment(), 'day');
               return (
-                <Day key={today.format()}>
+                <Day key={today.format()} date={today.toISOString()}>
                   {isToday && <CurrentTimeIndicator time={moment().toISOString()} />}
                   {events.filter(event => moment(event.startTime).isSame(moment(startDate).add(i, 'days'), 'day')).map(event => (
-                    <WrappedEvent key={`${event.label}-${event.label}-${event.duration}`} label={event.label} startTime={event.startTime} duration={event.duration} />
+                    <WrappedEvent key={event.id} id={event.id} label={event.label} startTime={event.startTime} duration={event.duration} />
                   ))}
                 </Day>
               );

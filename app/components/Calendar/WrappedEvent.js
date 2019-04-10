@@ -24,7 +24,7 @@ const collect = (connect, monitor) => ({
 });
 
 const WrappedEvent = ({
-  label, startTime, duration, connectDragSource, isDragging,
+  id, label, startTime, duration, connectDragSource, isDragging,
 }) => {
   const startOfDay = moment(startTime).startOf('day');
   const startTimeMinutesPastMidnight = moment(startTime).diff(startOfDay, 'minutes');

@@ -10,6 +10,20 @@ const createEvent = ({
   duration,
 });
 
+const updateEvent = ({
+  id,
+  label,
+  duration,
+  startTime,
+}) => ({
+  type: 'UPDATE_EVENT',
+  id,
+  label,
+  duration,
+  startTime,
+});
+
 export {
   createEvent,
+  updateEvent,
 };

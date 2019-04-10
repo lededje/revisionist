@@ -4,8 +4,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import isUndefined from 'lodash/isUndefined';
-import HTML5Backend from 'react-dnd-html5-backend'
-import { DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 
 import Calendar from '../components/Calendar';
 import HeatCalendar from '../components/HeatCalendar';
@@ -14,8 +14,7 @@ import withRedux from '../components/withRedux';
 
 import { eventsType, eventsDefaultProps } from '../types/event';
 import { todosType, todosDefaultProps } from '../types/todo';
-
-import { createEvent } from '../actions/events';
+import { createEvent, updateEvent } from '../actions/events';
 
 import styles from './styles.css';
 
@@ -63,7 +62,7 @@ const connectedIndex = connect(
     };
   },
   dispatch => ({
-    actions: bindActionCreators({ createEvent }, dispatch),
+    actions: bindActionCreators({ createEvent, updateEvent }, dispatch),
   }),
 )(index);
 
