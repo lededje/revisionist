@@ -1,29 +1,29 @@
 const initialState = {
   events: [{
-    id: 1,
-    startTime: 'Mon Apr 08 2019 9:21:25 GMT+0200',
+    id: 'cjld2cjxh0000qzrmn831i7rn',
+    startTime: '2019-04-21T07:21:25.000Z',
     duration: 3600,
     label: 'Lorem',
   }, {
-    id: 2,
-    startTime: 'Wed Apr 10 2019 21:00:25 GMT+0200',
+    id: 'cjld2cjxh0000qzrmn831i7r3',
+    startTime: '2019-04-21T08:20:25.000Z',
     duration: 1800,
     label: 'dolor',
   }, {
-    id: 3,
-    startTime: 'Tue Apr 09 2019 12:21:25 GMT+0200',
+    id: 'cjld2cjxh0000qzrmn8317r22',
+    startTime: '2019-04-25T12:21:25.000Z',
     duration: 1800,
     label: 'amet',
   }, {
-    id: 4,
-    startTime: 'Thur Apr 11 2019 12:21:25 GMT+0200',
+    id: 'cjld2cjxh0000qzrmn831i7rv',
+    startTime: '2019-04-26T12:21:25.000Z',
     duration: 7200,
     label: 'amet',
   }, {
-    id: 4,
+    id: 'cjld2cjxh0000qzrmn83137rn',
     duration: 7200,
     label: 'amet',
-  }]
+  }],
 };
 
 const eventsReducer = (state = initialState, action = {}) => {
@@ -34,6 +34,7 @@ const eventsReducer = (state = initialState, action = {}) => {
         events: [
           ...state.events,
           {
+            id: action.id,
             label: action.label,
             duration: action.duration,
           },

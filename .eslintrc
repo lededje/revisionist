@@ -1,0 +1,21 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["prettier", "airbnb"],
+  "rules": {
+    "react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx"] }],
+    "import/no-unresolved": false,
+    "import/extensions": false,
+    "no-console": [1, { "allow": ["warn", "error"] }],
+    "import/prefer-default-export": false,
+    "react/prop-types": [2, "ignore": ["actions"]]
+  },
+  "globals": {
+    "window": true,
+    "jest": true,
+    "describe": true,
+    "expect": true,
+    "it": true,
+    "beforeEach": true,
+    "afterEach": true
+  }
+}

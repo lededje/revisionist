@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
@@ -8,6 +9,9 @@ import Calendar from '../components/Calendar';
 import HeatCalendar from '../components/HeatCalendar';
 import ToDoList from '../components/ToDoList';
 import withRedux from '../components/withRedux';
+
+import { eventsType, eventsDefaultProps } from '../types/event';
+import { todosType, todosDefaultProps } from '../types/todo';
 
 import { createEvent } from '../actions/events';
 
@@ -22,14 +26,24 @@ const index = ({ events, todos, actions }) => (
       <Calendar events={events} />
     </main>
     <aside>
-      <ToDoList events={todos} createEvent={actions.createEvent} />
+      <ToDoList todos={todos} createEvent={actions.createEvent} />
     </aside>
   </div>
 );
 
+index.propTypes = {
+  ...eventsType,
+  ...todosType,
+};
+
+index.defaultProps = {
+  ...eventsDefaultProps,
+  ...todosDefaultProps,
+};
+
 const connectedIndex = connect(
   (state) => {
-    const {events, todos} = state.events.events.reduce((acc, event) => {
+    const { events, todos } = state.events.events.reduce((acc, event) => {
       const type = isUndefined(event.startTime) === false ? 'events' : 'todos';
 
       return {
@@ -37,18 +51,18 @@ const connectedIndex = connect(
         [type]: [
           ...acc[type],
           event,
-        ]
-      }
-    }, {events: [], todos: []})
+        ],
+      };
+    }, { events: [], todos: [] });
 
     return {
       events,
       todos,
     };
   },
-  (dispatch) => ({
+  dispatch => ({
     actions: bindActionCreators({ createEvent }, dispatch),
-  })
+  }),
 )(index);
 
 export default withRedux(connectedIndex);
