@@ -28,6 +28,8 @@ const initialState = {
   }],
 };
 
+const defaultActionLength = 60 * 30; // 30 minutes
+
 const eventsReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case 'CREATE_EVENT': {
@@ -38,7 +40,7 @@ const eventsReducer = (state = initialState, action = {}) => {
           {
             id: action.id,
             label: action.label,
-            duration: action.duration,
+            duration: typeof action.duration === 'number' ? action.duration : defaultActionLength,
           },
         ],
       };

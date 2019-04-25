@@ -4,15 +4,13 @@ import { DragSource } from 'react-dnd';
 
 import Event from '../Event';
 
+import DragTypes from '../../consts/DragTypes';
+
 import { eventType, eventDefaultProps } from '../../types/event';
 
 import styles from './styles.css';
 
 const minutesInADay = 1440;
-
-const Types = {
-  EVENT: 'event',
-};
 
 const eventSource = {
   beginDrag: props => props,
@@ -54,4 +52,4 @@ WrappedEvent.defaultProps = {
   ...eventDefaultProps,
 };
 
-export default DragSource(Types.EVENT, eventSource, collect)(WrappedEvent);
+export default DragSource(DragTypes.EVENT, eventSource, collect)(WrappedEvent);

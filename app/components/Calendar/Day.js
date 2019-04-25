@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 
+import DragTypes from '../../consts/DragTypes';
 import { updateEvent } from '../../actions/events';
 
 import styles from './styles.css';
@@ -65,4 +66,4 @@ export default connect(
   dispatch => ({
     actions: bindActionCreators({ updateEvent }, dispatch),
   }),
-)(DropTarget('event', dayTarget, collect)(Day));
+)(DropTarget(DragTypes.EVENT, dayTarget, collect)(Day));

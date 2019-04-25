@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import { todosType, todosDefaultProps } from '../../types/todo';
-import Event from '../Event';
+import WrappedTodo from './WrappedTodo';
+
 
 import styles from './styles.css';
 
@@ -32,7 +33,7 @@ const TodoList = ({ todos, createEvent }) => {
     <div className={styles['todo-list']}>
       <h1>Todos</h1>
       { todos.map(event => (
-        <Event key={event.id} className={styles.event} label={event.label} duration={event.duration} />
+        <WrappedTodo key={event.id} id={event.id} className={styles.event} label={event.label} duration={event.duration} />
       ))}
       <form onSubmit={e => onSubmit(e, createEvent, setValue)}>
         <input type="text" name="label" value={value} onChange={e => onChange(e, setValue)} />
