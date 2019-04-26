@@ -39,7 +39,8 @@ Day.defaultProps = {
   blank: false,
 };
 
-const HeatCalendar = ({ date, events }) => {
+
+const HeatCalendar = ({ focusDateTime, events }) => {
   const eventCount = events.reduce((acc, event) => {
     const eventDate = moment(event.startTime).startOf('day').toISOString();
     return {
@@ -48,18 +49,18 @@ const HeatCalendar = ({ date, events }) => {
     };
   }, {});
 
-  const firstOfTheMonthDayIndex = moment(date).startOf('month').day();
-  const lastOfTheMonthDayIndex = moment(date).endOf('month').day();
-  const numberOfDaysInMonth = moment(date).daysInMonth();
+  const firstOfTheMonthDayIndex = moment(focusDateTime).startOf('month').day();
+  const lastOfTheMonthDayIndex = moment(focusDateTime).endOf('month').day();
+  const numberOfDaysInMonth = moment(focusDateTime).daysInMonth();
 
   return (
     <div>
-      <h1>{moment(date).format('MMMM YYYY')}</h1>
+      <h1>{moment(focusDateTime).format('MMMM YYYY')}</h1>
       <div className={styles['heat-calendar']}>
         { /* eslint-disable-next-line react/no-array-index-key */ }
         {new Array(firstOfTheMonthDayIndex).fill('').map((_, index) => <Day key={firstOfTheMonthDayIndex - index} label="" blank />)}
         {new Array(numberOfDaysInMonth).fill('').map((_, index) => {
-          const dayKey = moment(date).startOf('month').add(index + 1, 'days').startOf('day')
+          const dayKey = moment(focusDateTime).startOf('month').add(index + 1, 'days').startOf('day')
             .toISOString();
           const minutesBusy = eventCount[dayKey] || 0;
           const percentageBusy = minutesBusy / secondsInADay;
@@ -74,7 +75,7 @@ const HeatCalendar = ({ date, events }) => {
 };
 
 HeatCalendar.propTypes = {
-  date: PropTypes.instanceOf(moment),
+  focusDateTime: PropTypes.string.isRequired,
   events: PropTypes.arrayOf(PropTypes.shape({
     startTime: PropTypes.string,
     duration: PropTypes.number,
@@ -82,7 +83,6 @@ HeatCalendar.propTypes = {
 };
 
 HeatCalendar.defaultProps = {
-  date: '',
   events: [],
 };
 

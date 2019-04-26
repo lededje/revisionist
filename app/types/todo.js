@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 import { eventType, eventDefaultProps } from './event';
 
-
 const todoProps = ['id', 'label', 'duration'];
 
 const todoType = pick(eventType, todoProps);

@@ -1,3 +1,5 @@
+import omit from 'lodash/omit';
+
 const initialState = {
   events: [{
     id: 'cjld2cjxh0000qzrmn831i7rn',
@@ -26,6 +28,8 @@ const initialState = {
   }],
 };
 
+const defaultEventLength = 60 * 30; // 30 minutes
+
 const eventsReducer = (state = initialState, action = {}) => {
   switch (action.type) {
     case 'CREATE_EVENT': {
@@ -36,9 +40,21 @@ const eventsReducer = (state = initialState, action = {}) => {
           {
             id: action.id,
             label: action.label,
-            duration: action.duration,
+            duration: typeof action.duration === 'number' ? action.duration : defaultEventLength,
           },
         ],
+      };
+    }
+    case 'UPDATE_EVENT': {
+      return {
+        ...state,
+        events: state.events.map((event) => {
+          if (event.id !== action.id) return event;
+          return {
+            ...event,
+            ...omit(action, 'type'),
+          };
+        }),
       };
     }
     default: return state;

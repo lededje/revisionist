@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import PropTypes from 'prop-types';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import isUndefined from 'lodash/isUndefined';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
 
 import Calendar from '../components/Calendar';
 import HeatCalendar from '../components/HeatCalendar';
@@ -12,33 +15,47 @@ import withRedux from '../components/withRedux';
 
 import { eventsType, eventsDefaultProps } from '../types/event';
 import { todosType, todosDefaultProps } from '../types/todo';
-
-import { createEvent } from '../actions/events';
+import { createEvent, updateEvent } from '../actions/events';
+import { setFocus } from '../actions/calendar';
 
 import styles from './styles.css';
 
-const index = ({ events, todos, actions }) => (
-  <div className={styles.container}>
-    <aside>
-      <HeatCalendar events={events} date={moment()} />
-    </aside>
-    <main className={styles.main}>
-      <Calendar events={events} />
-    </main>
-    <aside>
-      <ToDoList todos={todos} createEvent={actions.createEvent} />
-    </aside>
-  </div>
-);
+const index = ({
+  events, todos, actions, focusDateTime,
+}) => {
+  useEffect(() => {
+    actions.setFocus({
+      dateTime: moment().toISOString(),
+    });
+  }, [actions.setFocus]);
+
+  if (!focusDateTime) return <div />;
+
+  return (
+    <div className={styles.container}>
+      <aside>
+        <HeatCalendar events={events} date={moment()} focusDateTime={focusDateTime} />
+      </aside>
+      <main className={styles.main}>
+        <Calendar events={events} focusDateTime={focusDateTime} />
+      </main>
+      <aside>
+        <ToDoList todos={todos} createEvent={actions.createEvent} />
+      </aside>
+    </div>
+  );
+};
 
 index.propTypes = {
   ...eventsType,
   ...todosType,
+  focusDateTime: PropTypes.string,
 };
 
 index.defaultProps = {
   ...eventsDefaultProps,
   ...todosDefaultProps,
+  focusDatetime: null,
 };
 
 const connectedIndex = connect(
@@ -58,11 +75,12 @@ const connectedIndex = connect(
     return {
       events,
       todos,
+      focusDateTime: state.calendar.focusDateTime,
     };
   },
   dispatch => ({
-    actions: bindActionCreators({ createEvent }, dispatch),
+    actions: bindActionCreators({ createEvent, updateEvent, setFocus }, dispatch),
   }),
 )(index);
 
-export default withRedux(connectedIndex);
+export default DragDropContext(HTML5Backend)(withRedux(connectedIndex));
