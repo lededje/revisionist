@@ -60,7 +60,7 @@ const HeatCalendar = ({ focusDateTime, events }) => {
         { /* eslint-disable-next-line react/no-array-index-key */ }
         {new Array(firstOfTheMonthDayIndex).fill('').map((_, index) => <Day key={firstOfTheMonthDayIndex - index} label="" blank />)}
         {new Array(numberOfDaysInMonth).fill('').map((_, index) => {
-          const dayKey = moment(focusDateTime).startOf('month').add(index + 1, 'days').startOf('day')
+          const dayKey = moment(focusDateTime).startOf('month').add(index, 'days').startOf('day')
             .toISOString();
           const minutesBusy = eventCount[dayKey] || 0;
           const percentageBusy = minutesBusy / secondsInADay;
