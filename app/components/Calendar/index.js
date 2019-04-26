@@ -1,5 +1,4 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import moment from 'moment';
 
 import Scale from './Scale';
@@ -12,13 +11,13 @@ import { eventsType, eventsDefaultProps } from '../../types/event';
 
 import styles from './styles.css';
 
-const Calendar = ({ events }) => {
-  const startDate = moment().startOf('week');
+const Calendar = ({ events, focusDateTime }) => {
+  const startDate = moment(focusDateTime).startOf('week');
   const amountOfDays = 7;
 
   return (
     <div className={styles.calendar}>
-      <Header startDate={startDate} amountOfDays={amountOfDays} />
+      <Header startDate={startDate.toISOString()} amountOfDays={amountOfDays} />
       <section className={styles.body}>
         <Scale />
         <div className={styles['day-container']}>
