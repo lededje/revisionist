@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import classNames from 'classnames';
 
 import chroma from 'chroma-js';
 
@@ -10,7 +11,9 @@ const secondsInADay = 1440 * 8;
 
 const scale = chroma.scale(['D8E6E7', '218380']);
 
-const Day = ({ label, percentage, blank }) => {
+const Day = ({
+  label, percentage, blank, onClick,
+}) => {
   const style = blank === true
     ? {}
     : {
@@ -18,12 +21,17 @@ const Day = ({ label, percentage, blank }) => {
       color: percentage > 0.5 ? '#fff' : '#000',
     };
 
+  const classes = classNames({
+    [styles['day-container']]: true,
+    [styles.pointer]: typeof onClick === 'function',
+  });
+
   return (
-    <div className={styles['day-container']}>
+    <a className={classes} onClick={onClick}>
       <div className={styles.day} style={style}>
         <span className={styles.label}>{ label }</span>
       </div>
-    </div>
+    </a>
   );
 };
 
@@ -39,8 +47,15 @@ Day.defaultProps = {
   blank: false,
 };
 
+const setCalendarFocus = (setFocus, dateTime) => (e) => {
+  e.preventDefault();
 
-const HeatCalendar = ({ focusDateTime, events }) => {
+  setFocus({
+    dateTime,
+  });
+};
+
+const HeatCalendar = ({ focusDateTime, events, setFocus }) => {
   const eventCount = events.reduce((acc, event) => {
     const eventDate = moment(event.startTime).startOf('day').toISOString();
     return {
@@ -65,7 +80,7 @@ const HeatCalendar = ({ focusDateTime, events }) => {
           const minutesBusy = eventCount[dayKey] || 0;
           const percentageBusy = minutesBusy / secondsInADay;
           /* eslint-disable-next-line react/no-array-index-key */
-          return <Day key={index} label={String(index + 1)} percentage={percentageBusy} />;
+          return <Day onClick={setCalendarFocus(setFocus, dayKey)} key={index} label={String(index + 1)} percentage={percentageBusy} />;
         })}
         { /* eslint-disable-next-line react/no-array-index-key */ }
         {new Array(6 - lastOfTheMonthDayIndex).fill('').map((_, index) => <Day key={lastOfTheMonthDayIndex + index} label="" blank />)}
@@ -80,6 +95,7 @@ HeatCalendar.propTypes = {
     startTime: PropTypes.string,
     duration: PropTypes.number,
   })),
+  setFocus: PropTypes.func.isRequired,
 };
 
 HeatCalendar.defaultProps = {
