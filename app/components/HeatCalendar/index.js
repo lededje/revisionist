@@ -9,10 +9,10 @@ import styles from './styles.css';
 
 const secondsInADay = 1440 * 8;
 
-const scale = chroma.scale(['D8E6E7', '218380']);
+const scale = chroma.scale(['a7c0cd', '4b636e']);
 
 const Day = ({
-  label, percentage, blank, onClick,
+  label, percentage, blank, onClick, today,
 }) => {
   const style = blank === true
     ? {}
@@ -21,14 +21,18 @@ const Day = ({
       color: percentage > 0.5 ? '#fff' : '#000',
     };
 
+  const todayStyles = {
+    border: '1px solid red',
+  };
+
   const classes = classNames({
     [styles['day-container']]: true,
     [styles.pointer]: typeof onClick === 'function',
   });
 
   return (
-    <a className={classes} onClick={onClick}>
-      <div className={styles.day} style={style}>
+    <a className={classes} onClick={onClick} style={style}>
+      <div className={styles.day} style={today ? todayStyles : {}}>
         <span className={styles.label}>{ label }</span>
       </div>
     </a>
@@ -80,7 +84,7 @@ const HeatCalendar = ({ focusDateTime, events, setFocus }) => {
           const minutesBusy = eventCount[dayKey] || 0;
           const percentageBusy = minutesBusy / secondsInADay;
           /* eslint-disable-next-line react/no-array-index-key */
-          return <Day onClick={setCalendarFocus(setFocus, dayKey)} key={index} label={String(index + 1)} percentage={percentageBusy} />;
+          return <Day onClick={setCalendarFocus(setFocus, dayKey)} key={index} label={String(index + 1)} percentage={percentageBusy} today={moment(dayKey).isSame(moment(), 'day')} />;
         })}
         { /* eslint-disable-next-line react/no-array-index-key */ }
         {new Array(6 - lastOfTheMonthDayIndex).fill('').map((_, index) => <Day key={lastOfTheMonthDayIndex + index} label="" blank />)}
