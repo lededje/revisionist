@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import classNames from 'classnames';
 
 import chroma from 'chroma-js';
 
@@ -8,9 +9,11 @@ import styles from './styles.css';
 
 const secondsInADay = 1440 * 8;
 
-const scale = chroma.scale(['D8E6E7', '218380']);
+const scale = chroma.scale(['a7c0cd', '4b636e']);
 
-const Day = ({ label, percentage, blank }) => {
+const Day = ({
+  label, percentage, blank, onClick, today,
+}) => {
   const style = blank === true
     ? {}
     : {
@@ -18,12 +21,21 @@ const Day = ({ label, percentage, blank }) => {
       color: percentage > 0.5 ? '#fff' : '#000',
     };
 
+  const todayStyles = {
+    border: '1px solid red',
+  };
+
+  const classes = classNames({
+    [styles['day-container']]: true,
+    [styles.pointer]: typeof onClick === 'function',
+  });
+
   return (
-    <div className={styles['day-container']}>
-      <div className={styles.day} style={style}>
+    <a className={classes} onClick={onClick} style={style}>
+      <div className={styles.day} style={today ? todayStyles : {}}>
         <span className={styles.label}>{ label }</span>
       </div>
-    </div>
+    </a>
   );
 };
 
@@ -39,8 +51,15 @@ Day.defaultProps = {
   blank: false,
 };
 
+const setCalendarFocus = (setFocus, dateTime) => (e) => {
+  e.preventDefault();
 
-const HeatCalendar = ({ focusDateTime, events }) => {
+  setFocus({
+    dateTime,
+  });
+};
+
+const HeatCalendar = ({ focusDateTime, events, setFocus }) => {
   const eventCount = events.reduce((acc, event) => {
     const eventDate = moment(event.startTime).startOf('day').toISOString();
     return {
@@ -57,6 +76,8 @@ const HeatCalendar = ({ focusDateTime, events }) => {
     <div>
       <h1>{moment(focusDateTime).format('MMMM YYYY')}</h1>
       <div className={styles['heat-calendar']}>
+      { /* eslint-disable-next-line react/no-array-index-key */ }
+        {new Array(7).fill('').map((_, index) => <Day key={moment().startOf('week').add(index, 'days').format('dd')} label={moment().startOf('week').add(index, 'days').format('dd').slice(0, 1)} blank />)}
         { /* eslint-disable-next-line react/no-array-index-key */ }
         {new Array(firstOfTheMonthDayIndex).fill('').map((_, index) => <Day key={firstOfTheMonthDayIndex - index} label="" blank />)}
         {new Array(numberOfDaysInMonth).fill('').map((_, index) => {
@@ -65,7 +86,7 @@ const HeatCalendar = ({ focusDateTime, events }) => {
           const minutesBusy = eventCount[dayKey] || 0;
           const percentageBusy = minutesBusy / secondsInADay;
           /* eslint-disable-next-line react/no-array-index-key */
-          return <Day key={index} label={String(index + 1)} percentage={percentageBusy} />;
+          return <Day onClick={setCalendarFocus(setFocus, dayKey)} key={index} label={String(index + 1)} percentage={percentageBusy} today={moment(dayKey).isSame(moment(), 'day')} />;
         })}
         { /* eslint-disable-next-line react/no-array-index-key */ }
         {new Array(6 - lastOfTheMonthDayIndex).fill('').map((_, index) => <Day key={lastOfTheMonthDayIndex + index} label="" blank />)}
@@ -80,6 +101,7 @@ HeatCalendar.propTypes = {
     startTime: PropTypes.string,
     duration: PropTypes.number,
   })),
+  setFocus: PropTypes.func.isRequired,
 };
 
 HeatCalendar.defaultProps = {

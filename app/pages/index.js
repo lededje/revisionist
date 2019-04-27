@@ -34,7 +34,7 @@ const index = ({
   return (
     <div className={styles.container}>
       <aside>
-        <HeatCalendar events={events} date={moment()} focusDateTime={focusDateTime} />
+        <HeatCalendar events={events} focusDateTime={focusDateTime} setFocus={actions.setFocus} />
       </aside>
       <main className={styles.main}>
         <Calendar events={events} focusDateTime={focusDateTime} />
