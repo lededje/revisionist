@@ -76,6 +76,8 @@ const HeatCalendar = ({ focusDateTime, events, setFocus }) => {
     <div>
       <h1>{moment(focusDateTime).format('MMMM YYYY')}</h1>
       <div className={styles['heat-calendar']}>
+      { /* eslint-disable-next-line react/no-array-index-key */ }
+        {new Array(7).fill('').map((_, index) => <Day key={moment().startOf('week').add(index, 'days').format('dd')} label={moment().startOf('week').add(index, 'days').format('dd').slice(0, 1)} blank />)}
         { /* eslint-disable-next-line react/no-array-index-key */ }
         {new Array(firstOfTheMonthDayIndex).fill('').map((_, index) => <Day key={firstOfTheMonthDayIndex - index} label="" blank />)}
         {new Array(numberOfDaysInMonth).fill('').map((_, index) => {
