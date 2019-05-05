@@ -39,7 +39,7 @@ const WrappedEvent = ({
       }}
       className={styles['event-wrapper']}
     >
-      <Event label={label} className={styles.event} />
+      <Event label={label} className={styles.event} startTime={startTime} duration={duration} />
     </div>,
   );
 };
