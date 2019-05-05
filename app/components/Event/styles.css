@@ -4,6 +4,11 @@
   padding: 8px;
   font-size: 12px;
   font-weight: 500;
+  overflow: hidden;
+
+}
+
+.label {
 }
 
 .time {
