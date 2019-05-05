@@ -11,7 +11,7 @@ class MyDocument extends Document {
       <Html>
         <Head>
           <link href="/static/normalize.css" rel="stylesheet" />
-          <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css?family=Roboto:400,500" rel="stylesheet" />
         </Head>
         <body>
           <Main />

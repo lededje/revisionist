@@ -3,7 +3,7 @@ import omit from 'lodash/omit';
 const initialState = {
   events: [{
     id: 'cjld2cjxh0000qzrmn831i7rn',
-    startTime: '2019-04-21T07:21:25.000Z',
+    startTime: '2019-05-05T07:21:25.000Z',
     duration: 3600,
     label: 'Lorem',
   }, {
