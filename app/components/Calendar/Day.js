@@ -15,15 +15,21 @@ const minutesInADay = 1440;
 const dayTarget = {
   drop: (props, monitor, component) => {
     const node = component.getNode();
+
     if (!node) {
       return;
     }
-    const hoverBoundingRect = node.getBoundingClientRect();
-    const dayHeight = hoverBoundingRect.height;
-    const clientOffset = monitor.getClientOffset();
-    const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
-    const minutesPastMidnight = hoverClientY / dayHeight * minutesInADay;
+    const mouseOffset = monitor.getClientOffset();
+    const originalMouseOffset = monitor.getSourceClientOffset();
+    const dayBoundingRectangle = node.getBoundingClientRect();
+
+    const mouseY = mouseOffset.y;
+    const dayHeight = dayBoundingRectangle.height;
+    const dayTop = dayBoundingRectangle.top;
+    const mouseOffsetWithinDay = mouseY - originalMouseOffset.y;
+
+    const minutesPastMidnight = (mouseY - dayTop - mouseOffsetWithinDay) / dayHeight * minutesInADay;
 
     const computedNewTime = moment(props.date).startOf('day').add(minutesPastMidnight, 'minutes');
 
