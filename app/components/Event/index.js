@@ -27,8 +27,8 @@ const renderTime = (startTime, duration) => {
   )
 }
 
-const Event = ({ label, className, startTime, duration }) => (
-  <div className={classNames(styles.event, className)} style={stringToMaterialColor(label).style}>
+const Event = ({ label, className, startTime, duration, style }) => (
+  <div className={classNames(styles.event, className)} style={{...stringToMaterialColor(label).style, ...style}}>
     <span className={styles.label}>{`${label} `}</span>
     {renderTime(startTime, duration)}
   </div>

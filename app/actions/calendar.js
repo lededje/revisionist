@@ -4,4 +4,14 @@ const setFocus = ({ dateTime, type }) => ({
   focusType: type,
 });
 
-export { setFocus };
+const setHeight = ({ height }) => ({
+  type: 'SET_HEIGHT',
+  height,
+});
+
+const setDayWidth = ({ dayWidth }) => ({
+  type: 'SET_DAY_WIDTH',
+  dayWidth,
+});
+
+export { setFocus, setHeight, setDayWidth };

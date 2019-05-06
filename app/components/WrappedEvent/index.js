@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import moment from 'moment';
 import { DragSource } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend'
 
 import Event from '../Event';
 
@@ -18,12 +19,22 @@ const eventSource = {
 
 const collect = (connect, monitor) => ({
   connectDragSource: connect.dragSource(),
+  connectDragPreview: connect.dragPreview(),
   isDragging: monitor.isDragging(),
 });
 
 const WrappedEvent = ({
-  id, label, startTime, duration, connectDragSource, isDragging,
+  id, label, startTime, duration, connectDragSource, isDragging, connectDragPreview,
 }) => {
+
+  useEffect(() => {
+    connectDragPreview(getEmptyImage(), {
+      // IE fallback: specify that we'd rather screenshot the node
+      // when it already knows it's being dragged so we can hide it with CSS.
+      captureDraggingState: true,
+    });
+  }, [connectDragPreview])
+
   const wrapperProps = {}
   if(startTime) {
     const startOfDay = moment(startTime).startOf('day');
