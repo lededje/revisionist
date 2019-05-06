@@ -17,8 +17,5 @@ const todosDefaultProps = {
 };
 
 export {
-  todoType,
-  todoDefaultProps,
-  todosType,
-  todosDefaultProps,
+  todoType, todoDefaultProps, todosType, todosDefaultProps,
 };

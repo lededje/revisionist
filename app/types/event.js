@@ -25,7 +25,6 @@ export {
   // singular
   eventType,
   eventDefaultProps,
-
   // plural
   eventsType,
   eventsDefaultProps,

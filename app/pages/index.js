@@ -62,17 +62,17 @@ index.defaultProps = {
 
 const connectedIndex = connect(
   (state) => {
-    const { events, todos } = state.events.events.reduce((acc, event) => {
-      const type = isUndefined(event.startTime) === false ? 'events' : 'todos';
+    const { events, todos } = state.events.events.reduce(
+      (acc, event) => {
+        const type = isUndefined(event.startTime) === false ? 'events' : 'todos';
 
-      return {
-        ...acc,
-        [type]: [
-          ...acc[type],
-          event,
-        ],
-      };
-    }, { events: [], todos: [] });
+        return {
+          ...acc,
+          [type]: [...acc[type], event],
+        };
+      },
+      { events: [], todos: [] },
+    );
 
     return {
       events,

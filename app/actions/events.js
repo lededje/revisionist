@@ -1,9 +1,6 @@
 import cuid from 'cuid';
 
-const createEvent = ({
-  label,
-  duration,
-}) => ({
+const createEvent = ({ label, duration }) => ({
   id: cuid(),
   type: 'CREATE_EVENT',
   label,
@@ -11,10 +8,7 @@ const createEvent = ({
 });
 
 const updateEvent = ({
-  id,
-  label,
-  duration,
-  startTime,
+  id, label, duration, startTime,
 }) => ({
   type: 'UPDATE_EVENT',
   id,
@@ -23,7 +17,4 @@ const updateEvent = ({
   startTime,
 });
 
-export {
-  createEvent,
-  updateEvent,
-};
+export { createEvent, updateEvent };
