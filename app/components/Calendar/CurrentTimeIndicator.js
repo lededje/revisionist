@@ -10,10 +10,7 @@ const CurrentTimeIndicator = () => {
   const minutesPastMidnight = moment(time).diff(moment(time).startOf('day'), 'minutes');
 
   useEffect(() => {
-    const timer = setInterval(
-      () => setTime(moment().toISOString()),
-      500,
-    );
+    const timer = setInterval(() => setTime(moment().toISOString()), 500);
 
     return () => {
       clearInterval(timer);
@@ -23,7 +20,7 @@ const CurrentTimeIndicator = () => {
   return (
     <div
       style={{
-        top: `${minutesPastMidnight / minutesInADay * 100}%`,
+        top: `${(minutesPastMidnight / minutesInADay) * 100}%`,
       }}
       className={styles['current-time-indicator']}
     />

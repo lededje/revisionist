@@ -29,9 +29,11 @@ const dayTarget = {
     const dayTop = dayBoundingRectangle.top;
     const mouseOffsetWithinDay = mouseY - originalMouseOffset.y;
 
-    const minutesPastMidnight = (mouseY - dayTop - mouseOffsetWithinDay) / dayHeight * minutesInADay;
+    const minutesPastMidnight = ((mouseY - dayTop - mouseOffsetWithinDay) / dayHeight) * minutesInADay;
 
-    const computedNewTime = moment(props.date).startOf('day').add(minutesPastMidnight, 'minutes');
+    const computedNewTime = moment(props.date)
+      .startOf('day')
+      .add(minutesPastMidnight, 'minutes');
 
     props.actions.updateEvent({
       ...monitor.getItem(),
@@ -45,22 +47,20 @@ const collect = (collect, monitor) => ({
   isOver: monitor.isOver(),
 });
 
-const Day = React.forwardRef(
-  ({ children, connectDropTarget }, ref) => {
-    const elementRef = useRef(null);
-    connectDropTarget(elementRef);
+const Day = React.forwardRef(({ children, connectDropTarget }, ref) => {
+  const elementRef = useRef(null);
+  connectDropTarget(elementRef);
 
-    useImperativeHandle(ref, () => ({
-      getNode: () => elementRef.current,
-    }));
+  useImperativeHandle(ref, () => ({
+    getNode: () => elementRef.current,
+  }));
 
-    return (
-      <div ref={elementRef} className={styles.day}>
-        { children }
-      </div>
-    );
-  },
-);
+  return (
+    <div ref={elementRef} className={styles.day}>
+      {children}
+    </div>
+  );
+});
 
 Day.propTypes = {
   children: PropTypes.node.isRequired,

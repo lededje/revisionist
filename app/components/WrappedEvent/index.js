@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import moment from 'moment';
 import { DragSource } from 'react-dnd';
-import { getEmptyImage } from 'react-dnd-html5-backend'
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import Event from '../Event';
 
@@ -24,25 +24,32 @@ const collect = (connect, monitor) => ({
 });
 
 const WrappedEvent = ({
-  id, label, startTime, duration, connectDragSource, isDragging, connectDragPreview,
+  id,
+  label,
+  startTime,
+  duration,
+  connectDragSource,
+  isDragging,
+  connectDragPreview,
 }) => {
-
   useEffect(() => {
     connectDragPreview(getEmptyImage(), {
       // IE fallback: specify that we'd rather screenshot the node
       // when it already knows it's being dragged so we can hide it with CSS.
       captureDraggingState: true,
     });
-  }, [connectDragPreview])
+  }, [connectDragPreview]);
 
-  const wrapperProps = {}
-  if(startTime) {
+  const wrapperProps = {};
+  if (startTime) {
     const startOfDay = moment(startTime).startOf('day');
     const startTimeMinutesPastMidnight = moment(startTime).diff(startOfDay, 'minutes');
-    const endTimeMinutesPastMidnight = moment(startTime).add(duration, 'seconds').diff(startOfDay, 'minutes');
+    const endTimeMinutesPastMidnight = moment(startTime)
+      .add(duration, 'seconds')
+      .diff(startOfDay, 'minutes');
 
-    const percentageThroughDayStart = startTimeMinutesPastMidnight / minutesInADay * 100;
-    const percentageThroughDayEnd = endTimeMinutesPastMidnight / minutesInADay * 100;
+    const percentageThroughDayStart = (startTimeMinutesPastMidnight / minutesInADay) * 100;
+    const percentageThroughDayEnd = (endTimeMinutesPastMidnight / minutesInADay) * 100;
 
     wrapperProps.style = {
       top: `${percentageThroughDayStart}%`,
@@ -50,7 +57,7 @@ const WrappedEvent = ({
     };
     wrapperProps.className = styles['event-wrapper'];
   } else {
-    wrapperProps.className = styles['todo-wrapper']
+    wrapperProps.className = styles['todo-wrapper'];
   }
 
   return connectDragSource(

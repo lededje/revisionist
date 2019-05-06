@@ -16,15 +16,15 @@ import styles from './styles.css';
 const todoTarget = {
   drop: (props, monitor, component) => {
     const node = component.getNode();
-    if(!node) {
+    if (!node) {
       return;
     }
     props.actions.updateEvent({
       ...monitor.getItem(),
       startTime: undefined,
     });
-  }
-}
+  },
+};
 
 const collect = (collect, monitor) => ({
   connectDropTarget: collect.dropTarget(),
@@ -63,8 +63,14 @@ const TodoList = React.forwardRef(({ todos, createEvent, connectDropTarget }, re
   return (
     <div ref={elementRef} className={styles['todo-list']}>
       <h1>Todos</h1>
-      { todos.map(event => (
-        <WrappedEvent key={event.id} id={event.id} className={styles.event} label={event.label} duration={event.duration} />
+      {todos.map(event => (
+        <WrappedEvent
+          key={event.id}
+          id={event.id}
+          className={styles.event}
+          label={event.label}
+          duration={event.duration}
+        />
       ))}
       <form onSubmit={e => onSubmit(e, createEvent, setValue)}>
         <input type="text" name="label" value={value} onChange={e => onChange(e, setValue)} />
@@ -86,5 +92,5 @@ export default connect(
   undefined,
   dispatch => ({
     actions: bindActionCreators({ updateEvent }, dispatch),
-  })
+  }),
 )(DropTarget(DragTypes.EVENT, todoTarget, collect)(TodoList));

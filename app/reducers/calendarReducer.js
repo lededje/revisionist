@@ -12,13 +12,13 @@ const calendarReducer = (state = initialState, action = {}) => {
       return {
         ...state,
         dayWidth: action.dayWidth,
-      }
+      };
     }
     case 'SET_HEIGHT': {
       return {
         ...state,
         height: action.height,
-      }
+      };
     }
     case 'SET_FOCUS': {
       return {
@@ -27,7 +27,8 @@ const calendarReducer = (state = initialState, action = {}) => {
         focusType: action.focusType || state.focusType,
       };
     }
-    default: return state;
+    default:
+      return state;
   }
 };
 

@@ -5,18 +5,18 @@ const durationToHumanReadable = (duration) => {
 
   let string = '';
 
-  if(momentDuration.get('hours') >= 1) {
-    string += `${momentDuration.get('hours')} hr `
+  if (momentDuration.get('hours') >= 1) {
+    string += `${momentDuration.get('hours')} hr `;
   }
 
-  if(momentDuration.get('minutes') > 0) {
-    string += `${momentDuration.get('minutes')} `
-    if(momentDuration.get('hours') === 0) {
-      string += 'm'
+  if (momentDuration.get('minutes') > 0) {
+    string += `${momentDuration.get('minutes')} `;
+    if (momentDuration.get('hours') === 0) {
+      string += 'm';
     }
   }
 
   return string.trim();
-}
+};
 
 export default durationToHumanReadable;

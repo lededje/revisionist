@@ -1,51 +1,50 @@
 // https://gist.github.com/morajabi/523d7a642d8c0a2f71fcfa0d8b3d2846
 
-import { useLayoutEffect, useCallback, useState } from 'react'
+import { useLayoutEffect, useCallback, useState } from 'react';
 
 const useRect = (ref) => {
-  const [rect, setRect] = useState(getRect(ref ? ref.current : null))
+  const [rect, setRect] = useState(getRect(ref ? ref.current : null));
 
   const handleResize = useCallback(() => {
     if (!ref.current) {
-      return
+      return;
     }
 
     // Update client rect
-    setRect(getRect(ref.current))
-  }, [ref])
+    setRect(getRect(ref.current));
+  }, [ref]);
 
   useLayoutEffect(() => {
-    const element = ref.current
+    const element = ref.current;
     if (!element) {
-      return
+      return;
     }
 
-    handleResize()
+    handleResize();
 
     if (typeof ResizeObserver === 'function') {
-      let resizeObserver = new ResizeObserver(() => handleResize())
-      resizeObserver.observe(element)
+      let resizeObserver = new ResizeObserver(() => handleResize());
+      resizeObserver.observe(element);
 
       return () => {
         if (!resizeObserver) {
-          return
+          return;
         }
 
-        resizeObserver.disconnect()
-        resizeObserver = null
-      }
-    } else {
-      // Browser support, remove freely
-      window.addEventListener('resize', handleResize)
-
-      return () => {
-        window.removeEventListener('resize', handleResize)
-      }
+        resizeObserver.disconnect();
+        resizeObserver = null;
+      };
     }
-  }, [ref.current])
+    // Browser support, remove freely
+    window.addEventListener('resize', handleResize);
 
-  return rect
-}
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [ref.current]);
+
+  return rect;
+};
 
 function getRect(element) {
   if (!element) {
@@ -56,10 +55,10 @@ function getRect(element) {
       right: 0,
       top: 0,
       width: 0,
-    }
+    };
   }
 
-  return element.getBoundingClientRect()
+  return element.getBoundingClientRect();
 }
 
 export default useRect;

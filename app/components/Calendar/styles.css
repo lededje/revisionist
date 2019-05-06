@@ -14,7 +14,7 @@
   padding-right: 5px;
 }
 
-.scale .step:first-child  .label {
+.scale .step:first-child .label {
   display: none;
 }
 .step {
