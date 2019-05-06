@@ -24,21 +24,26 @@ const collect = (connect, monitor) => ({
 const WrappedEvent = ({
   id, label, startTime, duration, connectDragSource, isDragging,
 }) => {
-  const startOfDay = moment(startTime).startOf('day');
-  const startTimeMinutesPastMidnight = moment(startTime).diff(startOfDay, 'minutes');
-  const endTimeMinutesPastMidnight = moment(startTime).add(duration, 'seconds').diff(startOfDay, 'minutes');
+  const wrapperProps = {}
+  if(startTime) {
+    const startOfDay = moment(startTime).startOf('day');
+    const startTimeMinutesPastMidnight = moment(startTime).diff(startOfDay, 'minutes');
+    const endTimeMinutesPastMidnight = moment(startTime).add(duration, 'seconds').diff(startOfDay, 'minutes');
 
-  const percentageThroughDayStart = startTimeMinutesPastMidnight / minutesInADay * 100;
-  const percentageThroughDayEnd = endTimeMinutesPastMidnight / minutesInADay * 100;
+    const percentageThroughDayStart = startTimeMinutesPastMidnight / minutesInADay * 100;
+    const percentageThroughDayEnd = endTimeMinutesPastMidnight / minutesInADay * 100;
+
+    wrapperProps.style = {
+      top: `${percentageThroughDayStart}%`,
+      bottom: `${100 - percentageThroughDayEnd}%`,
+    };
+    wrapperProps.className = styles['event-wrapper'];
+  } else {
+    wrapperProps.className = styles['todo-wrapper']
+  }
 
   return connectDragSource(
-    <div
-      style={{
-        top: `${percentageThroughDayStart}%`,
-        bottom: `${100 - percentageThroughDayEnd}%`,
-      }}
-      className={styles['event-wrapper']}
-    >
+    <div {...wrapperProps}>
       <Event label={label} className={styles.event} startTime={startTime} duration={duration} />
     </div>,
   );
