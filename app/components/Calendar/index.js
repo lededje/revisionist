@@ -4,7 +4,7 @@ import moment from 'moment';
 import Scale from './Scale';
 import CurrentTimeIndicator from './CurrentTimeIndicator';
 import Header from './Header';
-import WrappedEvent from './WrappedEvent';
+import WrappedEvent from '../WrappedEvent';
 import Day from './Day';
 
 import { eventsType, eventsDefaultProps } from '../../types/event';

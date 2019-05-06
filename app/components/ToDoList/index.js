@@ -9,7 +9,7 @@ import DragTypes from '../../consts/DragTypes';
 import { updateEvent } from '../../actions/events';
 
 import { todosType, todosDefaultProps } from '../../types/todo';
-import WrappedTodo from './WrappedTodo';
+import WrappedEvent from '../WrappedEvent';
 
 import styles from './styles.css';
 
@@ -64,7 +64,7 @@ const TodoList = React.forwardRef(({ todos, createEvent, connectDropTarget }, re
     <div ref={elementRef} className={styles['todo-list']}>
       <h1>Todos</h1>
       { todos.map(event => (
-        <WrappedTodo key={event.id} id={event.id} className={styles.event} label={event.label} duration={event.duration} />
+        <WrappedEvent key={event.id} id={event.id} className={styles.event} label={event.label} duration={event.duration} />
       ))}
       <form onSubmit={e => onSubmit(e, createEvent, setValue)}>
         <input type="text" name="label" value={value} onChange={e => onChange(e, setValue)} />
