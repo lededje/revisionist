@@ -1,9 +1,5 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import moment from 'moment';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-
-import useRect from '../useRect';
 
 import Scale from './Scale';
 import CurrentTimeIndicator from './CurrentTimeIndicator';
@@ -12,38 +8,21 @@ import WrappedEvent from '../WrappedEvent';
 import Day from './Day';
 import CustomCalendarDragLayer from '../CustomCalendarDragLayer';
 
-import { setHeight, setDayWidth } from '../../actions/calendar';
-
 import { eventsType, eventsDefaultProps } from '../../types/event';
 
 import styles from './styles.css';
 
-const Calendar = ({
-  events, focusDateTime, actions, calendarHeight, dayWidth,
-}) => {
+const Calendar = ({ events, focusDateTime }) => {
   const startDate = moment(focusDateTime).startOf('week');
   const amountOfDays = 7;
 
-  const calendarRef = useRef(null);
-  const firstDayRef = useRef(null);
-  const { height, width } = useRect(calendarRef);
-
-  if (calendarHeight !== height) {
-    actions.setHeight({ height });
-  }
-
-  const newDayWidth = width / 7;
-  if (dayWidth !== newDayWidth) {
-    actions.setDayWidth({ dayWidth: newDayWidth });
-  }
-
   return (
-    <div className={styles.calendar} ref={calendarRef}>
+    <div className={styles.calendar}>
       <Header startDate={startDate.toISOString()} amountOfDays={amountOfDays} />
       <section className={styles.body}>
-        <CustomCalendarDragLayer />
         <Scale />
         <div className={styles['day-container']}>
+          <CustomCalendarDragLayer />
           {new Array(amountOfDays).fill('').map((_, i) => {
             const today = moment(startDate).add(i, 'days');
             const isToday = today.isSame(moment(), 'day');
@@ -78,12 +57,4 @@ Calendar.defaultProps = {
   ...eventsDefaultProps,
 };
 
-export default connect(
-  state => ({
-    calendarHeight: state.calendar.height,
-    dayWidth: state.calendar.dayWidth,
-  }),
-  dispatch => ({
-    actions: bindActionCreators({ setHeight, setDayWidth }, dispatch),
-  }),
-)(Calendar);
+export default Calendar;

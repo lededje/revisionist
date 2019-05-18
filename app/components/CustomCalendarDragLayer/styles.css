@@ -2,10 +2,10 @@
   position: absolute;
   pointer-events: none;
   z-index: 100;
-  left: 0;
   top: 0;
+  left: 10px;
+  right: 0;
   height: 100%;
-  width: 100%;
 }
 
 .custom-event {
