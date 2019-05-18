@@ -100,6 +100,8 @@ const CustomCalendarDragLayer = ({
     return null;
   }
 
+  const eventHeight = (get(item, 'duration', defaultEventSize) / secondsInDay) * height;
+
   const [snappedX, snappedY] = snapToGrid(
     currentOffset.x - left,
     currentOffset.y - top,
@@ -107,12 +109,12 @@ const CustomCalendarDragLayer = ({
     height / fiveMinuteBlocksInADay,
   );
 
-  const clampedX = clamp(snappedX, width);
-  const clampedY = clamp(snappedY, height);
+  const clampedX = clamp(snappedX, 0, (width / 7) * 6);
+  const clampedY = clamp(snappedY, 0, height - eventHeight);
 
   const style = {
     transform: `translate(${clampedX}px, ${clampedY}px)`,
-    height: (get(item, 'duration', defaultEventSize) / secondsInDay) * height,
+    height: eventHeight,
     width: dayWidth - 20,
   };
 
