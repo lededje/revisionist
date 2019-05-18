@@ -1,7 +1,8 @@
-const setFocus = ({ dateTime, type }) => ({
+const setFocus = ({ dateTime, type, isDraggingOver }) => ({
   type: 'SET_FOCUS',
   focusDateTime: dateTime,
   focusType: type,
+  isDraggingOver,
 });
 
 const setHeight = ({ height }) => ({

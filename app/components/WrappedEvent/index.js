@@ -24,13 +24,7 @@ const collect = (connect, monitor) => ({
 });
 
 const WrappedEvent = ({
-  id,
-  label,
-  startTime,
-  duration,
-  connectDragSource,
-  isDragging,
-  connectDragPreview,
+  label, startTime, duration, connectDragSource, connectDragPreview,
 }) => {
   useEffect(() => {
     connectDragPreview(getEmptyImage(), {

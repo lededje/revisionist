@@ -22,6 +22,7 @@ const enhance = flowRight(
   connect(state => ({
     calendarHeight: state.calendar.height,
     dayWidth: state.calendar.dayWidth,
+    isDraggingOverCalendar: state.calendar.isDraggingOver,
   })),
   DragLayer(monitor => ({
     item: monitor.getItem(),
@@ -38,8 +39,9 @@ const CustomOutsideDragLayer = ({
   item,
   calendarHeight,
   dayWidth,
+  isDraggingOverCalendar,
 }) => {
-  if (!initialOffset || !currentOffset || !item) return null;
+  if (!initialOffset || !currentOffset || !item || isDraggingOverCalendar) return null;
 
   const style = {
     transform: `translate(${currentOffset.x}px, ${currentOffset.y}px)`,

@@ -4,10 +4,11 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import flowRight from 'lodash/flowRight';
 import get from 'lodash/get';
+import clamp from 'lodash/clamp';
 import moment from 'moment';
 import classNames from 'classnames';
 
-import { setHeight, setDayWidth } from '../../actions/calendar';
+import { setHeight, setDayWidth, setFocus } from '../../actions/calendar';
 
 import snapToGrid from '../../utils/snapToGrid';
 
@@ -34,9 +35,10 @@ const enhance = flowRight(
     state => ({
       calendarHeight: state.calendar.height,
       dayWidth: state.calendar.dayWidth,
+      isDraggingOver: state.calendar.isDraggingOver,
     }),
     dispatch => ({
-      actions: bindActionCreators({ setHeight, setDayWidth }, dispatch),
+      actions: bindActionCreators({ setHeight, setDayWidth, setFocus }, dispatch),
     }),
   ),
   DragLayer(monitor => ({
@@ -44,24 +46,42 @@ const enhance = flowRight(
     itemType: monitor.getItemType(),
     initialOffset: monitor.getInitialSourceClientOffset(),
     currentOffset: monitor.getSourceClientOffset(),
+    clientOffset: monitor.getClientOffset(),
     isDragging: monitor.isDragging(),
   })),
 );
 
+const isOverDragLayer = ({
+  height, width, top, left, clientOffset,
+}) => clientOffset.x > left
+  && clientOffset.x < left + width
+  && clientOffset.y > top
+  && clientOffset.y < top + height;
+
 const CustomCalendarDragLayer = ({
   initialOffset,
   currentOffset,
+  clientOffset,
   item,
+  isDraggingOver,
   actions,
   calendarHeight,
   dayWidth,
 }) => {
-  if (!initialOffset || !currentOffset || !item) return <div className={styles.layer} />;
+  if (!initialOffset || !currentOffset || !item) return null;
 
   const layerRef = useRef(null);
   const {
     height, width, top, left,
   } = useRect(layerRef);
+
+  const isHovering = isOverDragLayer({
+    height,
+    width,
+    top,
+    left,
+    clientOffset,
+  });
 
   if (calendarHeight !== height) {
     actions.setHeight({ height });
@@ -72,6 +92,14 @@ const CustomCalendarDragLayer = ({
     actions.setDayWidth({ dayWidth: newDayWidth });
   }
 
+  if (isDraggingOver !== isHovering && layerRef.current !== null) {
+    actions.setFocus({ isDraggingOver: isHovering });
+  }
+
+  if (isHovering === false && layerRef.current !== null) {
+    return null;
+  }
+
   const [snappedX, snappedY] = snapToGrid(
     currentOffset.x - left,
     currentOffset.y - top,
@@ -79,8 +107,11 @@ const CustomCalendarDragLayer = ({
     height / fiveMinuteBlocksInADay,
   );
 
+  const clampedX = clamp(snappedX, width);
+  const clampedY = clamp(snappedY, height);
+
   const style = {
-    transform: `translate(${snappedX}px, ${snappedY}px)`,
+    transform: `translate(${clampedX}px, ${clampedY}px)`,
     height: (get(item, 'duration', defaultEventSize) / secondsInDay) * height,
     width: dayWidth - 20,
   };
@@ -89,7 +120,6 @@ const CustomCalendarDragLayer = ({
     <div className={styles.layer} ref={layerRef}>
       <Event
         {...item}
-        label={`${item.label} calendar drag layer`}
         className={classNames(item.className, styles['custom-event'])}
         style={style}
       />

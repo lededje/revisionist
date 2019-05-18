@@ -1,6 +1,9 @@
+import isUndefined from 'lodash/isUndefined';
+
 const initialState = {
   dateTime: null,
   focusDateTime: null,
+  isDraggingOver: false,
   focusType: 'WEEK',
   height: 0,
   dayWidth: 0,
@@ -25,6 +28,9 @@ const calendarReducer = (state = initialState, action = {}) => {
         ...state,
         focusDateTime: action.focusDateTime || state.focusDateTime,
         focusType: action.focusType || state.focusType,
+        isDraggingOver: !isUndefined(action.isDraggingOver)
+          ? action.isDraggingOver
+          : state.isDraggingOver,
       };
     }
     default:
