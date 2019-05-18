@@ -32,8 +32,12 @@ const enhance = flowRight(
   })),
 );
 
-const CustomDragLayer = ({
-  initialOffset, currentOffset, item, calendarHeight, dayWidth,
+const CustomOutsideDragLayer = ({
+  initialOffset,
+  currentOffset,
+  item,
+  calendarHeight,
+  dayWidth,
 }) => {
   if (!initialOffset || !currentOffset || !item) return null;
 
@@ -54,4 +58,4 @@ const CustomDragLayer = ({
   );
 };
 
-export default enhance(CustomDragLayer);
+export default enhance(CustomOutsideDragLayer);

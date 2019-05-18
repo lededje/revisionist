@@ -11,7 +11,7 @@ import { DragDropContext } from 'react-dnd';
 import Calendar from '../components/Calendar';
 import HeatCalendar from '../components/HeatCalendar';
 import ToDoList from '../components/ToDoList';
-import CustomDragLayer from '../components/CustomDragLayer';
+import CustomOutsideDragLayer from '../components/CustomOutsideDragLayer';
 import withRedux from '../components/withRedux';
 
 import { eventsType, eventsDefaultProps } from '../types/event';
@@ -34,7 +34,7 @@ const index = ({
 
   return (
     <div className={styles.container}>
-      <CustomDragLayer />
+      <CustomOutsideDragLayer />
       <aside>
         <HeatCalendar events={events} focusDateTime={focusDateTime} setFocus={actions.setFocus} />
       </aside>

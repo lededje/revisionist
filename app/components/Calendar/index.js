@@ -10,6 +10,7 @@ import CurrentTimeIndicator from './CurrentTimeIndicator';
 import Header from './Header';
 import WrappedEvent from '../WrappedEvent';
 import Day from './Day';
+import CustomCalendarDragLayer from '../CustomCalendarDragLayer';
 
 import { setHeight, setDayWidth } from '../../actions/calendar';
 
@@ -40,6 +41,7 @@ const Calendar = ({
     <div className={styles.calendar} ref={calendarRef}>
       <Header startDate={startDate.toISOString()} amountOfDays={amountOfDays} />
       <section className={styles.body}>
+        <CustomCalendarDragLayer />
         <Scale />
         <div className={styles['day-container']}>
           {new Array(amountOfDays).fill('').map((_, i) => {
