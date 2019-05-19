@@ -69,6 +69,7 @@ const CustomDragLayer = ({
     const clampedX = clamp(
       repositionedX,
       calendarRect.left,
+      // 0 through number of day - 1 are acceptable positions for it to be in.
       calendarRect.left + (calendarRect.width / 7) * 6,
     );
     const clampedY = clamp(
