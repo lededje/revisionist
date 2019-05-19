@@ -42,7 +42,11 @@ const DayContainer = ({ children, calendarRect, actions }) => {
 
 DayContainer.propTypes = {
   children: PropTypes.node.isRequired,
-  calendarRect: PropTypes.shape(rectType).isRequired,
+  calendarRect: PropTypes.shape(rectType),
+};
+
+DayContainer.defaultProps = {
+  calendarRect: null,
 };
 
 export default connect(

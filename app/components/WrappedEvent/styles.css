@@ -12,3 +12,9 @@
 .todo-wrapper {
   margin-bottom: 8px;
 }
+
+/* The styles applied to an event that is being dragged; not the one moving
+   the old one left behind. */
+.dragging {
+  opacity: 0.5;
+}
