@@ -8,6 +8,8 @@ import moment from 'moment';
 import DragTypes from '../../consts/DragTypes';
 import { updateEvent } from '../../actions/events';
 
+import snapToGrid from '../../utils/snapToGrid';
+
 import styles from './styles.css';
 
 const minutesInADay = 1440;
@@ -27,13 +29,16 @@ const dayTarget = {
     const mouseY = mouseOffset.y;
     const dayHeight = dayBoundingRectangle.height;
     const dayTop = dayBoundingRectangle.top;
+
     const mouseOffsetWithinDay = mouseY - originalMouseOffset.y;
 
     const minutesPastMidnight = ((mouseY - dayTop - mouseOffsetWithinDay) / dayHeight) * minutesInADay;
 
+    const [snappedMinutesPastMidnight] = snapToGrid(minutesPastMidnight, null, 5);
+
     const computedNewTime = moment(props.date)
       .startOf('day')
-      .add(minutesPastMidnight, 'minutes');
+      .add(snappedMinutesPastMidnight, 'minutes');
 
     props.actions.updateEvent({
       ...monitor.getItem(),
