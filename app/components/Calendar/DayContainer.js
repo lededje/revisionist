@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -29,9 +29,11 @@ const DayContainer = ({ children, calendarRect, actions }) => {
     width: rect.width - 10,
   };
 
-  if (!shallowCompare(calendarRect, normalizedRect)) {
-    actions.setRect({ rect: normalizedRect });
-  }
+  useEffect(() => {
+    if (!shallowCompare(calendarRect, normalizedRect)) {
+      actions.setRect({ rect: normalizedRect });
+    }
+  });
 
   return (
     <div className={styles['day-container']} ref={calendarRef}>
