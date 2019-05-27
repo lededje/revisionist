@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`clampPeriod clamps date 2019-05-27T15:21:59+01:00 to increment day 1`] = `"2019-05-26T23:00:00.000Z"`;
+
+exports[`clampPeriod clamps date 2019-05-27T15:21:59+01:00 to increment hour 1`] = `"2019-05-27T14:00:00.000Z"`;
+
+exports[`clampPeriod clamps date 2019-05-27T15:21:59+01:00 to increment minute 1`] = `"2019-05-27T14:21:00.000Z"`;
+
+exports[`clampPeriod clamps date 2019-05-27T15:21:59+01:00 to increment year 1`] = `"2019-01-01T00:00:00.000Z"`;

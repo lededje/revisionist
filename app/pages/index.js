@@ -29,7 +29,9 @@ const index = ({
 }) => {
   useEffect(() => {
     actions.setFocus({
-      dateTime: moment().toISOString(),
+      dateTime: moment()
+        .startOf('week')
+        .toISOString(),
     });
   }, [actions.setFocus]);
 

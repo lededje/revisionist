@@ -11,13 +11,33 @@
   ],
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest",
+    "now-build": "next build app && next export app -o dist",
+    "dev": "next app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lededje/revisionist.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "now": "^15.6.0"
+    "now": "^15.6.0",
+    "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.8.0",
+    "enzyme": "^3.9.0",
+    "enzyme-adapter-react-16": "^1.13.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "jest": "^24.8.0",
+    "jest-spec-reporter": "^1.0.6",
+    "prettier": "^1.16.4"
   },
   "private": "true",
   "dependencies": {}

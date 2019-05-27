@@ -7,6 +7,7 @@
 
 .event {
   flex: 1;
+  position: relative;
 }
 
 .todo-wrapper {
@@ -17,4 +18,23 @@
    the old one left behind. */
 .dragging {
   opacity: 0.5;
+}
+
+.handle {
+  border-top: 3px solid transparent;
+  position: absolute;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  border-radius: 4;
+}
+
+.handle--up {
+  top: 0;
+  cursor: n-resize;
+}
+
+.handle--down {
+  bottom: 0;
+  cursor: s-resize;
 }

@@ -3,7 +3,7 @@ import moment from 'moment';
 import { DragSource } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
-import classNames from 'classnames';
+import WrappedHandle from './WrappedHandle';
 
 import Event from '../Event';
 
@@ -26,12 +26,14 @@ const collect = (connect, monitor) => ({
 });
 
 const WrappedEvent = ({
+  id,
   label,
   startTime,
   duration,
   connectDragSource,
   connectDragPreview,
   isDragging,
+  resize,
 }) => {
   useEffect(() => {
     connectDragPreview(getEmptyImage(), {
@@ -62,9 +64,18 @@ const WrappedEvent = ({
     [styles.dragging]: isDragging,
   };
 
+  const eventProps = {
+    id,
+    label,
+    startTime,
+    duration,
+  };
+
   return connectDragSource(
     <div {...wrapperProps}>
-      <Event label={label} className={classes} startTime={startTime} duration={duration} />
+      {resize && <WrappedHandle resizeDirection="up" {...eventProps} />}
+      <Event className={classes} {...eventProps} />
+      {resize && <WrappedHandle resizeDirection="down" {...eventProps} />}
     </div>,
   );
 };

@@ -12,4 +12,6 @@ const timeToPercentage = (time) => {
   return moment.duration(moment(time).diff(startOfDay)).as('minutes') / minutesInDay;
 };
 
-export { percentageToDuration, timeToPercentage };
+const durationToPercentage = duration => duration.as('minutes') / minutesInDay;
+
+export { percentageToDuration, timeToPercentage, durationToPercentage };
