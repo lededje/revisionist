@@ -1,0 +1,51 @@
+{
+  "name": "revisionist",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "now-build": "next build app && next export app -o dist",
+    "dev": "next app"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lededje/revisionist.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/lededje/revisionist/issues"
+  },
+  "homepage": "https://github.com/lededje/revisionist#readme",
+  "dependencies": {
+    "@zeit/next-css": "^1.0.1",
+    "chroma-js": "^2.0.3",
+    "classnames": "^2.2.6",
+    "cuid": "^2.1.6",
+    "lodash": "^4.17.11",
+    "moment": "^2.24.0",
+    "next": "^8.0.3",
+    "normalize.css": "^8.0.1",
+    "prop-types": "^15.7.2",
+    "react": "^16.8.4",
+    "react-dnd": "^7.4.5",
+    "react-dnd-html5-backend": "^7.4.4",
+    "react-dom": "^16.8.4",
+    "react-redux": "^6.0.1",
+    "redux": "^4.0.1",
+    "redux-async-await": "^1.0.1",
+    "redux-devtools-extension": "^2.13.8",
+    "redux-thunk": "^2.3.0"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.16.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-config-prettier": "^4.1.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jsx-a11y": "^6.2.1",
+    "eslint-plugin-prettier": "^3.0.1",
+    "eslint-plugin-react": "^7.12.4",
+    "prettier": "^1.16.4"
+  }
+}

@@ -1,11 +1,12 @@
 {
-    "version": 2,
-    "alias": "revisionist.miles.dev",
-    "env": {
-      "NODE_ENV": "production"
-    },
-    "name": "revisionist",
-    "builds": [
-        { "src": "package.json", "use": "@now/static-build" }
-    ]
+  "version": 2,
+  "alias": "revisionist.miles.dev",
+  "env": {
+    "NODE_ENV": "production"
+  },
+  "name": "revisionist",
+  "builds": [
+    { "src": "app/next.config.js", "use": "@now/next" },
+    { "src": "api/index.js", "use": "@now/node" }
+  ]
 }
