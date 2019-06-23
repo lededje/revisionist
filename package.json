@@ -1,5 +1,5 @@
 {
-  "name": "revisionist-poc",
+  "name": "revisionist",
   "version": "1.0.0",
   "description": "",
   "workspaces": [
@@ -16,5 +16,6 @@
   "devDependencies": {
     "now": "^15.6.0"
   },
-  "private": "true"
+  "private": "true",
+  "dependencies": {}
 }

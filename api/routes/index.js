@@ -1,4 +1,7 @@
-module.exports = (req, res) => {
-  const { name = 'World' } = req.query;
-  res.send(`Hello ${name}!`);
+const { send } = require('micro');
+
+const packageJson = require('../package.json');
+
+module.exports = async (req, res) => {
+  send(res, 200, { version: packageJson.version });
 };
