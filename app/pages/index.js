@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import isUndefined from 'lodash/isUndefined';
+import flowRight from 'lodash/flowRight';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
@@ -19,6 +20,9 @@ import { todosType, todosDefaultProps } from '../types/todo';
 import { createEvent, updateEvent } from '../actions/events';
 import { setFocus } from '../actions/calendar';
 
+import withAuth0 from '../components/withAuth0';
+import { useAuth0 } from '../components/useAuth0';
+
 import styles from './styles.css';
 
 const index = ({
@@ -29,6 +33,12 @@ const index = ({
       dateTime: moment().toISOString(),
     });
   }, [actions.setFocus]);
+
+  const { isAuthenticated, getTokenSilently } = useAuth0();
+
+  if (isAuthenticated) {
+    getTokenSilently().then(console.log);
+  }
 
   if (!focusDateTime) return <div />;
 
@@ -85,4 +95,9 @@ const connectedIndex = connect(
   }),
 )(index);
 
-export default DragDropContext(HTML5Backend)(withRedux(connectedIndex));
+const enhance = flowRight(
+  DragDropContext(HTML5Backend),
+  withRedux,
+);
+
+export default enhance(connectedIndex);

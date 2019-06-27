@@ -1,12 +1,12 @@
-version: "3.3"
+version: '3.3'
 
 services:
-  web-app:
-    build: "./"
+  db:
+    image: postgres:12-alpine
     restart: always
+    environment:
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_USER=postgres
+      - POSTGRES_DB=revisionist
     ports:
-      - 3000:3000
-    command: "npm run dev"
-    volumes:
-      - ./:/app
-      - /app/node_modules
+      - '5432:5432'
