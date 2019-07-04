@@ -19,7 +19,6 @@
   },
   "homepage": "https://github.com/lededje/revisionist#readme",
   "dependencies": {
-    "@auth0/auth0-spa-js": "^1.0.1",
     "@zeit/next-css": "^1.0.1",
     "chroma-js": "^2.0.3",
     "classnames": "^2.2.6",

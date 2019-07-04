@@ -20,9 +20,6 @@ import { todosType, todosDefaultProps } from '../types/todo';
 import { createEvent, updateEvent } from '../actions/events';
 import { setFocus } from '../actions/calendar';
 
-import withAuth0 from '../components/withAuth0';
-import { useAuth0 } from '../components/useAuth0';
-
 import styles from './styles.css';
 
 const index = ({
@@ -33,12 +30,6 @@ const index = ({
       dateTime: moment().toISOString(),
     });
   }, [actions.setFocus]);
-
-  const { isAuthenticated, getTokenSilently } = useAuth0();
-
-  if (isAuthenticated) {
-    getTokenSilently().then(console.log);
-  }
 
   if (!focusDateTime) return <div />;
 
