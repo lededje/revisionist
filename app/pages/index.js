@@ -5,6 +5,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import moment from 'moment';
 import isUndefined from 'lodash/isUndefined';
+import flowRight from 'lodash/flowRight';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
@@ -85,4 +86,9 @@ const connectedIndex = connect(
   }),
 )(index);
 
-export default DragDropContext(HTML5Backend)(withRedux(connectedIndex));
+const enhance = flowRight(
+  DragDropContext(HTML5Backend),
+  withRedux,
+);
+
+export default enhance(connectedIndex);

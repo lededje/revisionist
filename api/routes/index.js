@@ -1,7 +1,7 @@
-const { send } = require('micro');
+import { send } from 'micro';
 
-const packageJson = require('../package.json');
+import packageJson from '../package.json';
 
-module.exports = async (req, res) => {
+export default async (req, res) => {
   send(res, 200, { version: packageJson.version });
 };
