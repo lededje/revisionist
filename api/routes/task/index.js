@@ -1,5 +1,5 @@
-const crud = require('../../utils/crud');
+import crud from '../../utils/crud';
+import create from './create';
+import deleteRoute from './delete';
 
-const create = require('./create');
-
-export default crud({ create });
+export default crud({ create, delete: deleteRoute });

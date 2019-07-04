@@ -4,7 +4,7 @@ const { MAILGUN_API_DOMAIN, MAILGUN_API_KEY } = process.env;
 
 const mg = mailgun({ apiKey: MAILGUN_API_KEY, domain: MAILGUN_API_DOMAIN });
 
-export default async ({
+const email = async ({
   from = 'The Revisionist <revisionist@miles.dev>',
   to,
   subject,
@@ -19,3 +19,5 @@ export default async ({
     html,
   });
 };
+
+export default email;

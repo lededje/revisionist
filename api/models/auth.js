@@ -15,12 +15,13 @@ class Auth extends Model {
           type: DataTypes.INTEGER,
         },
         accessToken: {
-          type: DataTypes.STRING,
+          type: DataTypes.STRING(48),
           unique: true,
         },
-        verficationToken: {
-          type: DataTypes.STRING,
+        verificationToken: {
+          type: DataTypes.UUID,
           unique: true,
+          defaultValue: Sequelize.UUIDV4,
         },
         expiry: {
           type: DataTypes.DATE,
@@ -45,6 +46,11 @@ class Auth extends Model {
       {
         sequelize,
         modelName: 'auth',
+        name: {
+          singular: 'auth',
+          plural: 'auth',
+        },
+        freezeTableName: true,
       },
     );
   }

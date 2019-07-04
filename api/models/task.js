@@ -39,7 +39,7 @@ class Task extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.User);
+    this.belongsTo(models.User, { onDelete: 'CASCADE' });
   }
 }
 

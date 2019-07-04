@@ -1,11 +1,13 @@
 import pick from 'lodash/pick';
 import { json, send } from 'micro';
 
-import { User } from '../../models';
 import { MALFORMED_JSON, INTERNAL_SERVER_ERROR } from '../../errors';
 
-export default async (req, res) => {
+import auth from '../../utils/auth';
+
+export default auth(async (req, res, user) => {
   let body;
+
   try {
     body = await json(req);
   } catch (e) {
@@ -14,8 +16,6 @@ export default async (req, res) => {
 
   let task;
   try {
-    const user = await User.findByPk(1);
-
     task = await user.createTask({
       startTime: body.startTime,
       duration: body.duration,
@@ -29,4 +29,4 @@ export default async (req, res) => {
   }
 
   return send(res, 200, pick(task, ['id', 'startTime', 'duration', 'label']));
-};
+});

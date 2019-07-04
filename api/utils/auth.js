@@ -1,30 +1,34 @@
-import isDefined from 'lodash/isDefined';
+import Cookies from 'cookies';
+import moment from 'moment';
+import { send } from 'micro';
 
-import Auth from '../../models';
+import { Auth } from '../models';
+import { ACCESS_TOKEN_MISSING, ACCESS_TOKEN_INVALID } from '../errors';
 
-import { AUTH_HEADER_MISSING, UNABLE_TO_PARSE_AUTH_HEADER } from '../errors';
+const isValid = ({ verifiedAt, revoked, expiry }) => moment.utc(expiry).isAfter(moment.utc()) && verifiedAt !== null && revoked === false;
 
-const isValid = ({ verifiedAt, revoked }) => isDefined(verifiedAt) && revoked === false;
+export default next => async (req, res) => {
+  const cookies = Cookies(req, res);
 
-export default async (req) => {
-  if (!req.headers.authentication) {
-    throw new Error(AUTH_HEADER_MISSING);
-  }
+  const accessToken = cookies.get('accessToken');
 
-  let accessToken;
-  try {
-    [, accessToken] = req.headers.authentication.match(/^[B|b]earer (.*)$/);
-  } catch (e) {
-    throw new Error(UNABLE_TO_PARSE_AUTH_HEADER);
+  if (!accessToken) {
+    send(res, 401, { data: ACCESS_TOKEN_MISSING });
+    return;
   }
 
   const auth = await Auth.findOne({
     where: { accessToken },
   });
 
-  if (isValid(auth)) {
-    return auth.User;
+  if (!isValid(auth)) {
+    cookies.set('accessToken');
+
+    send(res, 401, { data: ACCESS_TOKEN_INVALID });
+    return;
   }
 
-  return {};
+  const user = await auth.getUser();
+
+  await next(req, res, user);
 };

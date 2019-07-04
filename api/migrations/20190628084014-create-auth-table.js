@@ -9,12 +9,13 @@ module.exports = {
       type: Sequelize.INTEGER,
     },
     accessToken: {
-      type: Sequelize.STRING,
+      type: Sequelize.STRING(48),
       unique: true,
     },
-    verficationToken: {
-      type: Sequelize.STRING,
+    verificationToken: {
+      type: Sequelize.UUID,
       unique: true,
+      defaultValue: Sequelize.UUIDV4,
     },
     expiry: {
       type: Sequelize.DATE,

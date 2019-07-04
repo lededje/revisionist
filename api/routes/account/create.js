@@ -35,7 +35,7 @@ export default async (req, res) => {
     to: newUser.email,
     subject: 'Revisionist: Activate you account',
     text: `Hello ${newUser.name}\n\nPlease activate your account by visiting the link below.\n\n${verificationLink}\n\nThe Revisionist`,
-    html: `<p>Hello ${newUser.name}</p><p>Please activate your account by clicking on the link below.</p><p><a href="${verificationLink}">${verificationLink}<a/></p><p>The Revisionist</p>`,
+    html: `<p>Hello ${newUser.name}</p><p>Please activate your account by clicking on the link below.</p><p><a href="${verificationLink}">${verificationLink}</a></p><p>The Revisionist</p>`,
   });
 
   return send(res, 200, pick(newUser, ['id', 'name', 'email']));

@@ -2,7 +2,7 @@ import { send } from 'micro';
 
 import { INVALID_METHOD } from '../errors';
 
-export const invalidMethod = (req, res) => send(res, 405, { error: INVALID_METHOD });
+export const invalidMethod = (req, res) => send(res, 405, { error: INVALID_METHOD, method: req.method, url: req.url });
 
 export default ({
   create = invalidMethod,

@@ -1,5 +1,8 @@
 {
   "name": "revisionist",
+  "engines": {
+    "node": "10.x"
+  },
   "version": "1.0.0",
   "description": "",
   "workspaces": [
