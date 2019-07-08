@@ -5,7 +5,7 @@ import { send } from 'micro';
 import { Auth } from '../models';
 import { ACCESS_TOKEN_MISSING, ACCESS_TOKEN_INVALID } from '../errors';
 
-const isValid = ({ verifiedAt, revoked, expiry }) => moment.utc(expiry).isAfter(moment.utc()) && verifiedAt !== null && revoked === false;
+const isValid = ({ verifiedAt, revokedAt, expiry }) => moment.utc(expiry).isAfter(moment.utc()) && verifiedAt !== null && revokedAt === null;
 
 export const getUser = async (req) => {
   const cookies = Cookies(req);
