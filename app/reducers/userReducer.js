@@ -8,7 +8,11 @@ const userReducer = (state = initialState, action = {}) => {
         id: action.payload.id,
         name: action.payload.name,
         email: action.payload.email,
+        verified: action.payload.verified,
       };
+    }
+    case 'LOGOUT_SUCCESS': {
+      return initialState;
     }
     default:
       return state;

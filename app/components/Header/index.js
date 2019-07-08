@@ -2,19 +2,25 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 import flowRight from 'lodash/flowRight';
 import get from 'lodash/get';
+
+import { logout } from '../../actions/user';
 
 import styles from './styles.css';
 import Container from '../Container';
 
 const enhance = flowRight(
-  connect(state => ({
-    user: state.user,
-  })),
+  connect(
+    state => ({
+      user: state.user,
+    }),
+    dispatch => ({ actions: bindActionCreators({ logout }, dispatch) }),
+  ),
 );
 
-const Header = ({ user }) => {
+const Header = ({ user, actions }) => {
   const isLoggedIn = typeof get(user, 'id') === 'number';
   return (
     <header className={styles.bar}>
@@ -25,7 +31,7 @@ const Header = ({ user }) => {
         <nav>
           {isLoggedIn ? (
             <>
-              <button type="button" className={styles.button}>
+              <button type="button" className={styles.button} onClick={actions.logout}>
                 Logout
               </button>
             </>
@@ -47,7 +53,7 @@ const Header = ({ user }) => {
 
 Header.propTypes = {
   user: PropTypes.shape({
-    id: PropTypes.string,
+    id: PropTypes.number,
   }).isRequired,
 };
 

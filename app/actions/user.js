@@ -3,4 +3,12 @@ const fetchLoginStatus = () => ({
   endpoint: '/api/auth',
 });
 
-export { fetchLoginStatus };
+const logout = () => ({
+  type: 'LOGOUT',
+  endpoint: '/api/auth',
+  options: {
+    method: 'DELETE',
+  },
+});
+
+export { fetchLoginStatus, logout };

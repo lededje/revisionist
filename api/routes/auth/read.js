@@ -12,5 +12,5 @@ export default async (req, res) => {
     return;
   }
 
-  send(res, 200, pick(user, ['id', 'name', 'email']));
+  send(res, 200, pick(user, ['id', 'name', 'email', 'verified']));
 };
