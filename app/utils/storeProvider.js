@@ -4,6 +4,8 @@ import asyncAwait from 'redux-async-await';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import defaultsDeep from 'lodash/defaultsDeep';
 
+import apiMiddleware from '../middleware/api';
+
 import reducers from '../reducers';
 
 export default function configureStore(initialState, isServer) {
@@ -12,7 +14,7 @@ export default function configureStore(initialState, isServer) {
   }
 
   const mergedState = defaultsDeep({}, initialState, reducers());
-  const composedMiddleware = composeWithDevTools(applyMiddleware(asyncAwait, thunk));
+  const composedMiddleware = composeWithDevTools(applyMiddleware(asyncAwait, apiMiddleware, thunk));
   const store = createStore(reducers, mergedState, composedMiddleware);
 
   if (typeof window !== 'undefined') {
