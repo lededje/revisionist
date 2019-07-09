@@ -1,7 +1,7 @@
 {
   "name": "api",
   "engines": {
-    "node": "10.x"
+    "node": "10.16"
   },
   "version": "1.0.0",
   "description": "",

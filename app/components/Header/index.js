@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { useRouter } from 'next/router';
+
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import flowRight from 'lodash/flowRight';
@@ -21,6 +23,7 @@ const enhance = flowRight(
 );
 
 const Header = ({ user, actions }) => {
+  const router = useRouter();
   const isLoggedIn = typeof get(user, 'id') === 'number';
   return (
     <header className={styles.bar}>
@@ -37,7 +40,7 @@ const Header = ({ user, actions }) => {
             </>
           ) : (
             <>
-              <button type="button" className={styles.button}>
+              <button type="button" className={styles.button} onClick={() => router.push('/login')}>
                 Login
               </button>
               <button type="button" className={styles.button}>

@@ -3,6 +3,15 @@ const fetchLoginStatus = () => ({
   endpoint: '/api/auth',
 });
 
+const login = email => ({
+  type: 'REQUEST_LOGIN',
+  endpoint: '/api/auth',
+  options: {
+    method: 'POST',
+    body: { email },
+  },
+});
+
 const logout = () => ({
   type: 'LOGOUT',
   endpoint: '/api/auth',
@@ -11,4 +20,4 @@ const logout = () => ({
   },
 });
 
-export { fetchLoginStatus, logout };
+export { fetchLoginStatus, login, logout };
