@@ -10,9 +10,7 @@ import { login } from '../actions/user';
 const enhance = flowRight(
   withRedux,
   connect(
-    state => ({
-      auth: state.auth,
-    }),
+    state => ({ auth: state.auth }),
     dispatch => ({ actions: bindActionCreators({ login }, dispatch) }),
   ),
 );

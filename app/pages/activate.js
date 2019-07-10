@@ -18,7 +18,6 @@ const activate = ({ router }) => {
       } catch (e) {
         setActivationStatus(500);
       }
-
       setLoading(false);
     })();
   }, []);
