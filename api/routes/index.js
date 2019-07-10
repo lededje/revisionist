@@ -1,7 +1,17 @@
 import { send } from 'micro';
 
+import { sequelize } from '../models';
+
 import packageJson from '../package.json';
 
 export default async (req, res) => {
-  send(res, 200, { version: packageJson.version });
+  let databaseConnection;
+  try {
+    await sequelize.authenticate();
+    databaseConnection = true;
+  } catch (e) {
+    databaseConnection = false;
+  }
+
+  send(res, 200, { version: packageJson.version, databaseConnection });
 };
