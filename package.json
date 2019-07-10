@@ -1,7 +1,7 @@
 {
   "name": "revisionist",
   "engines": {
-    "node": "10.16"
+    "node": "10.15.3"
   },
   "version": "1.0.0",
   "description": "",
