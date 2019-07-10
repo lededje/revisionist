@@ -2,7 +2,13 @@
   "version": 2,
   "alias": "revisionist.miles.dev",
   "env": {
-    "NODE_ENV": "production"
+    "NODE_ENV": "production",
+    "DB_USER": "@db_user",
+    "DB_PASSWORD": "@db_password",
+    "DB_HOST": "@db_host",
+    "DB_NAME": "@db_name",
+    "MAILGUN_API_KEY": "@mailgun_api_key",
+    "MAILGUN_API_DOMAIN": "@mailgun_api_domain"
   },
   "name": "revisionist",
   "builds": [
