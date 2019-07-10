@@ -1,16 +1,13 @@
-import Cookies from 'cookies';
-import moment from 'moment';
 import { send } from 'micro';
+
+import { authIsValid, secureCookie } from './security';
 
 import { Auth } from '../models';
 import { ACCESS_TOKEN_MISSING, ACCESS_TOKEN_INVALID } from '../errors';
 
-const isValid = ({ verifiedAt, revokedAt, expiry }) => moment.utc(expiry).isAfter(moment.utc()) && verifiedAt !== null && revokedAt === null;
-
 export const getUser = async (req) => {
-  const cookies = Cookies(req);
-
-  const accessToken = cookies.get('accessToken');
+  const { cookies } = req;
+  const { accessToken } = cookies;
 
   if (!accessToken) {
     const error = new Error();
@@ -22,7 +19,7 @@ export const getUser = async (req) => {
     where: { accessToken },
   });
 
-  if (!isValid(auth)) {
+  if (!authIsValid(auth)) {
     const error = new Error();
     error.reason = ACCESS_TOKEN_INVALID;
     throw error;
@@ -42,8 +39,7 @@ export default next => async (req, res) => {
         return;
       }
       case ACCESS_TOKEN_INVALID: {
-        const cookies = Cookies(req, res);
-        cookies.set('accessToken');
+        res.setHeader('Set-Cookie', secureCookie('accessToken', null));
 
         send(res, 401, { data: ACCESS_TOKEN_INVALID });
         return;

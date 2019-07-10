@@ -6,7 +6,10 @@ import {
   VERIFICATION_TOKEN_NOT_FOUND,
   INVALID_VERIFICATION_TOKEN,
   INTERNAL_SERVER_ERROR,
+  USER_ALREADY_VERIFIED,
 } from '../../errors';
+
+import { createAuthInstance, secureCookie } from '../../utils/security';
 
 export default async (req, res) => {
   const { verificationToken } = req.query;
@@ -39,9 +42,22 @@ export default async (req, res) => {
     return;
   }
 
+  if (user.verified) {
+    send(res, 400, { error: USER_ALREADY_VERIFIED });
+    return;
+  }
+
   await user.update({
     verified: true,
   });
+
+  const auth = createAuthInstance(req, {
+    autoVerify: true,
+  });
+
+  await user.createAuth(auth);
+
+  res.setHeader('Set-Cookie', secureCookie('accessToken', auth.accessToken));
 
   send(res, 204);
 };

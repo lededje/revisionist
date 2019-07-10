@@ -1,11 +1,9 @@
-import crypto from 'crypto';
 import { send, json } from 'micro';
-import proxyaddr from 'proxy-addr';
 
 import { USER_NOT_FOUND, MALFORMED_JSON, EXPECTED_VALUES_MISSING } from '../../errors';
 import { User } from '../../models';
 import sendEmail from '../../utils/email';
-import words from '../../utils/words';
+import { createAuthInstance, createWordCode } from '../../utils/security';
 
 export default async (req, res) => {
   let body;
@@ -32,15 +30,9 @@ export default async (req, res) => {
     return;
   }
 
-  const accessToken = crypto.randomBytes(24).toString('hex');
-  const ipAddress = proxyaddr(req, addr => addr === '127.0.0.1');
+  const auth = await user.createAuth(createAuthInstance(req));
 
-  const auth = await user.createAuth({
-    accessToken,
-    ipAddress,
-  });
-
-  const randomWords = words(4).join(' ');
+  const randomWords = createWordCode();
 
   const link = `https://revisionist.miles.dev/auth/${auth.verificationToken}`;
 
@@ -51,5 +43,5 @@ export default async (req, res) => {
     html: `<p>Hello ${user.name}</p><p>We have recieved a login attempt with the following code: "${randomWords}"</p><p>To complete the login process, please visit <a href="${link}">${link}</a>.</p><p>The Revisionist</p>`,
   });
 
-  send(res, 200, { code: randomWords, ipAddress });
+  send(res, 200, { code: randomWords, ipAddress: auth.ipAddress });
 };

@@ -1,19 +1,19 @@
 import { send } from 'micro';
 
-import Cookies from 'cookies';
+import secureCookie from '../../utils/security';
 
 import { Auth } from '../../models';
 
 export default async (req, res) => {
-  const cookies = Cookies(req, res);
+  const cookies = req.cookie;
 
   const auth = await Auth.findOne({
-    accessToken: cookies.get('accessToken'),
+    accessToken: cookies.accessToken,
   });
 
   await auth.update({ revokedAt: Date.now() });
 
-  cookies.set('accessToken');
+  res.setHeader('Set-Cookie', secureCookie('accessToken', null));
 
   send(res, 204);
 };
