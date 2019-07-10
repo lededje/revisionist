@@ -7,7 +7,7 @@
   "name": "revisionist",
   "builds": [
     { "src": "app/next.config.js", "use": "@now/next" },
-    { "src": "api/routes/**/*.js", "use": "@now/node" }
+    { "src": "api/routes/**/index.js", "use": "@now/node" }
   ],
   "routes": [
     { "src": "/api/activate/(.*)", "dest": "/api/routes/activate?verificationToken=$1" },
