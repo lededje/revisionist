@@ -2,7 +2,7 @@ import crypto from 'crypto';
 import { send, json } from 'micro';
 import proxyaddr from 'proxy-addr';
 
-import { USER_NOT_FOUND, MALFORMED_JSON } from '../../errors';
+import { USER_NOT_FOUND, MALFORMED_JSON, EXPECTED_VALUES_MISSING } from '../../errors';
 import { User } from '../../models';
 import sendEmail from '../../utils/email';
 import words from '../../utils/words';
@@ -17,6 +17,11 @@ export default async (req, res) => {
   }
 
   const { email } = body;
+
+  if (!email) {
+    send(res, 400, { error: EXPECTED_VALUES_MISSING });
+    return;
+  }
 
   const user = await User.findOne({
     where: { email },

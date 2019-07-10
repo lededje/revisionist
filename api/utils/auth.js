@@ -5,16 +5,17 @@ import { send } from 'micro';
 import { Auth } from '../models';
 import { ACCESS_TOKEN_MISSING, ACCESS_TOKEN_INVALID } from '../errors';
 
-const isValid = ({ verifiedAt, revoked, expiry }) => moment.utc(expiry).isAfter(moment.utc()) && verifiedAt !== null && revoked === false;
+const isValid = ({ verifiedAt, revokedAt, expiry }) => moment.utc(expiry).isAfter(moment.utc()) && verifiedAt !== null && revokedAt === null;
 
-export default next => async (req, res) => {
-  const cookies = Cookies(req, res);
+export const getUser = async (req) => {
+  const cookies = Cookies(req);
 
   const accessToken = cookies.get('accessToken');
 
   if (!accessToken) {
-    send(res, 401, { data: ACCESS_TOKEN_MISSING });
-    return;
+    const error = new Error();
+    error.reason = ACCESS_TOKEN_MISSING;
+    throw error;
   }
 
   const auth = await Auth.findOne({
@@ -22,13 +23,36 @@ export default next => async (req, res) => {
   });
 
   if (!isValid(auth)) {
-    cookies.set('accessToken');
-
-    send(res, 401, { data: ACCESS_TOKEN_INVALID });
-    return;
+    const error = new Error();
+    error.reason = ACCESS_TOKEN_INVALID;
+    throw error;
   }
 
-  const user = await auth.getUser();
+  return auth.getUser();
+};
+
+export default next => async (req, res) => {
+  let user;
+  try {
+    user = getUser(req, res);
+  } catch (e) {
+    switch (e.reason) {
+      case ACCESS_TOKEN_MISSING: {
+        send(res, 401, { data: ACCESS_TOKEN_MISSING });
+        return;
+      }
+      case ACCESS_TOKEN_INVALID: {
+        const cookies = Cookies(req, res);
+        cookies.set('accessToken');
+
+        send(res, 401, { data: ACCESS_TOKEN_INVALID });
+        return;
+      }
+      default: {
+        throw e;
+      }
+    }
+  }
 
   await next(req, res, user);
 };

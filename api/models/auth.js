@@ -34,7 +34,11 @@ class Auth extends Model {
         },
         revoked: {
           type: DataTypes.BOOLEAN,
+          deprecated: true, // Use revokedAt instead
           defaultValue: false,
+        },
+        revokedAt: {
+          type: DataTypes.DATE,
         },
         createdAt: {
           type: DataTypes.DATE,

@@ -10,6 +10,13 @@ export default Page => class withRedux extends Component {
 
     const initialState = {};
 
+    if (isServer) {
+      initialState.request = {
+        host: `${req.headers['x-forwarded-proto']}://${req.headers['x-forwarded-host']}`,
+        cookie: req.headers.cookie,
+      };
+    }
+
     const store = storeProvider(initialState, isServer);
 
     let props;

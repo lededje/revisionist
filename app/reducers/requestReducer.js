@@ -1,0 +1,13 @@
+const initialState = {
+  host: '',
+  cookie: '',
+};
+
+const requestReducer = (state = initialState, action = {}) => {
+  switch (action.type) {
+    default:
+      return state;
+  }
+};
+
+export default requestReducer;

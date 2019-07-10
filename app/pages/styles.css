@@ -1,11 +1,13 @@
 body {
-  font-family: 'Roboto', sans-serif;
-}
-
-.container {
-  display: flex;
+  font-family: -apple-system, system-ui, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Fira Sans',
+    'Droid Sans', 'Helvetica Neue', sans-serif;
 }
 
 .main {
+  display: flex;
+}
+
+.main,
+.calendar-wrapper {
   flex: 1;
 }

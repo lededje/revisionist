@@ -9,6 +9,7 @@ import flowRight from 'lodash/flowRight';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 
+import Header from '../components/Header';
 import Calendar from '../components/Calendar';
 import HeatCalendar from '../components/HeatCalendar';
 import ToDoList from '../components/ToDoList';
@@ -18,6 +19,7 @@ import withRedux from '../components/withRedux';
 import { eventsType, eventsDefaultProps } from '../types/event';
 import { todosType, todosDefaultProps } from '../types/todo';
 import { createEvent, updateEvent } from '../actions/events';
+import { fetchLoginStatus } from '../actions/user';
 import { setFocus } from '../actions/calendar';
 
 import styles from './styles.css';
@@ -36,17 +38,26 @@ const index = ({
   return (
     <div className={styles.container}>
       <CustomDragLayer />
-      <aside>
-        <HeatCalendar events={events} focusDateTime={focusDateTime} setFocus={actions.setFocus} />
-      </aside>
+      <Header />
       <main className={styles.main}>
-        <Calendar events={events} focusDateTime={focusDateTime} />
+        <aside>
+          <HeatCalendar events={events} focusDateTime={focusDateTime} setFocus={actions.setFocus} />
+        </aside>
+        <div className={styles['calendar-wrapper']}>
+          <Calendar events={events} focusDateTime={focusDateTime} />
+        </div>
+        <aside>
+          <ToDoList todos={todos} createEvent={actions.createEvent} />
+        </aside>
       </main>
-      <aside>
-        <ToDoList todos={todos} createEvent={actions.createEvent} />
-      </aside>
     </div>
   );
+};
+
+index.getInitialProps = async ({ store }) => {
+  await store.dispatch(fetchLoginStatus());
+
+  return {};
 };
 
 index.propTypes = {

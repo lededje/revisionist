@@ -1,0 +1,36 @@
+.bar {
+  height: 40px;
+  line-height: 40px;
+  font-size: 14px;
+}
+
+.two-columns {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.logo {
+  padding: 0;
+  cursor: pointer;
+  border: 0;
+  background: none;
+
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+.button {
+  cursor: pointer;
+  color: #666;
+  border: 0;
+  padding: 0;
+  margin: 0 0 0 16px;
+  background: none;
+
+  transition: color 200ms;
+}
+
+.button:hover {
+  color: #000;
+}
