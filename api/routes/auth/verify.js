@@ -1,9 +1,10 @@
 import { send } from 'micro';
 import { DatabaseError } from 'sequelize';
-import Cookies from 'cookies';
 import moment from 'moment';
 
 import { Auth } from '../../models';
+
+import { secureCookie, verifyAuthInstance } from '../../utils/security';
 
 import {
   VERIFICATION_TOKEN_EXPIRED,
@@ -54,23 +55,9 @@ export default async (req, res) => {
     return;
   }
 
-  const expiry = moment
-    .utc()
-    .add(30, 'days')
-    .toISOString();
+  const verifiedAuth = await verifyAuthInstance(auth);
 
-  const verifiedAuth = await auth.update({
-    expiry,
-    verifiedAt: moment().toISOString(),
-  });
-
-  const cookies = new Cookies(req, res);
-
-  cookies.set('accessToken', verifiedAuth.accessToken, {
-    secure: process.env.NODE_ENV === 'production',
-    sameSite: 'strict',
-    overwrite: true,
-  });
+  res.setHeader('Set-Cookie', secureCookie('accessToken', verifiedAuth.accessToken));
 
   send(res, 204);
 };
