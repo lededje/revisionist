@@ -8,7 +8,8 @@
     "DB_HOST": "@db_host",
     "DB_NAME": "@db_name",
     "MAILGUN_API_KEY": "@mailgun_api_key",
-    "MAILGUN_API_DOMAIN": "@mailgun_api_domain"
+    "MAILGUN_API_DOMAIN": "@mailgun_api_domain",
+    "SENTRY_API_DSN": "@sentry_api_dsn"
   },
   "name": "revisionist",
   "builds": [

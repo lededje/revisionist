@@ -2,7 +2,7 @@ import { send, json } from 'micro';
 
 import auth from '../../utils/auth';
 
-import { MALFORMED_JSON, TASK_NOT_FOUND, INTERNAL_SERVER_ERROR } from '../../errors';
+import { MALFORMED_JSON, TASK_NOT_FOUND } from '../../errors';
 
 export default auth(async (req, res, user) => {
   let body;
@@ -13,15 +13,9 @@ export default auth(async (req, res, user) => {
     return;
   }
 
-  let task;
-  try {
-    [task] = await user.getTasks({
-      where: { id: body.id },
-    });
-  } catch (e) {
-    send(res, 500, { error: INTERNAL_SERVER_ERROR });
-    return;
-  }
+  const [task] = await user.getTasks({
+    where: { id: body.id },
+  });
 
   try {
     await task.destroy();

@@ -1,7 +1,10 @@
 import crud from '../../utils/crud';
 
 import activate from './activate';
+import withSentry from '../../utils/withSentry';
 
-export default crud({
-  patch: activate,
-});
+export default withSentry(
+  crud({
+    patch: activate,
+  }),
+);
