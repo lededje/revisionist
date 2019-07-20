@@ -43,7 +43,7 @@ const Header = ({ user, actions }) => {
               <button type="button" className={styles.button} onClick={() => router.push('/login')}>
                 Login
               </button>
-              <button type="button" className={styles.button}>
+              <button type="button" className={styles.button} onClick={() => router.push('/join')}>
                 Join Free
               </button>
             </>
