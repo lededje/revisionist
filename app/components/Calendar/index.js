@@ -37,6 +37,7 @@ const Calendar = ({ events, focusDateTime }) => {
                       label={event.label}
                       startTime={event.startTime}
                       duration={event.duration}
+                      resize
                     />
                   ))}
               </Day>

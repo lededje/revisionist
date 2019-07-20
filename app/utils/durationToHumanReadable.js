@@ -10,10 +10,7 @@ const durationToHumanReadable = (duration) => {
   }
 
   if (momentDuration.get('minutes') > 0) {
-    string += `${momentDuration.get('minutes')} `;
-    if (momentDuration.get('hours') === 0) {
-      string += 'm';
-    }
+    string += `${momentDuration.get('minutes')} m`;
   }
 
   return string.trim();

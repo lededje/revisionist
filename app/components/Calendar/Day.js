@@ -3,47 +3,49 @@ import PropTypes from 'prop-types';
 import { DropTarget } from 'react-dnd';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import moment from 'moment';
+import flowRight from 'lodash/flowRight';
+
+import { resizeEvent, dragEvent } from '../CustomDragLayer';
 
 import DragTypes from '../../consts/DragTypes';
 import { updateEvent } from '../../actions/events';
 
-import snapToGrid from '../../utils/snapToGrid';
+import withCalendarCalculator from '../withCalendarCalculator';
 
 import styles from './styles.css';
-
-const minutesInADay = 1440;
 
 const dayTarget = {
   drop: (props, monitor, component) => {
     const node = component.getNode();
+    if (!node) return;
 
-    if (!node) {
-      return;
-    }
+    const type = monitor.getItemType();
 
-    const mouseOffset = monitor.getClientOffset();
-    const originalMouseOffset = monitor.getSourceClientOffset();
-    const dayBoundingRectangle = node.getBoundingClientRect();
+    const updatedEvent = (() => {
+      switch (type) {
+        case DragTypes.EVENT: {
+          return dragEvent({
+            item: monitor.getItem(),
+            getPositionTime: props.getPositionTime,
+            currentOffset: monitor.getSourceClientOffset(),
+          });
+        }
+        case DragTypes.EVENT_HANDLE: {
+          return resizeEvent({
+            item: monitor.getItem(),
+            getPositionTime: props.getPositionTime,
+            currentOffset: monitor.getSourceClientOffset(),
+          });
+        }
+        default: {
+          return {
+            ...monitor.getItem(),
+          };
+        }
+      }
+    })();
 
-    const mouseY = mouseOffset.y;
-    const dayHeight = dayBoundingRectangle.height;
-    const dayTop = dayBoundingRectangle.top;
-
-    const mouseOffsetWithinDay = mouseY - originalMouseOffset.y;
-
-    const minutesPastMidnight = ((mouseY - dayTop - mouseOffsetWithinDay) / dayHeight) * minutesInADay;
-
-    const [snappedMinutesPastMidnight] = snapToGrid(minutesPastMidnight, null, 5);
-
-    const computedNewTime = moment(props.date)
-      .startOf('day')
-      .add(snappedMinutesPastMidnight, 'minutes');
-
-    props.actions.updateEvent({
-      ...monitor.getItem(),
-      startTime: computedNewTime.toISOString(),
-    });
+    props.actions.updateEvent(updatedEvent);
   },
 };
 
@@ -72,9 +74,15 @@ Day.propTypes = {
   connectDropTarget: PropTypes.func.isRequired,
 };
 
-export default connect(
-  undefined,
-  dispatch => ({
-    actions: bindActionCreators({ updateEvent }, dispatch),
-  }),
-)(DropTarget(DragTypes.EVENT, dayTarget, collect)(Day));
+const enhance = flowRight(
+  withCalendarCalculator,
+  connect(
+    undefined,
+    dispatch => ({
+      actions: bindActionCreators({ updateEvent }, dispatch),
+    }),
+  ),
+  DropTarget([DragTypes.EVENT, DragTypes.EVENT_HANDLE], dayTarget, collect),
+);
+
+export default enhance(Day);

@@ -1,5 +1,6 @@
 const DragTypes = {
-  EVENT: 'event',
+  EVENT: 'EVENT',
+  EVENT_HANDLE: 'EVENT_HANDLE',
 };
 
 export default DragTypes;
