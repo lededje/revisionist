@@ -12,5 +12,6 @@ export default withSentry(async (req, res) => {
   } catch (e) {
     databaseConnection = false;
   }
+
   send(res, 200, { version: packageJson.version, databaseConnection });
 });
