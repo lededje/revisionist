@@ -16,11 +16,18 @@
     { "src": "api/routes/**/index.js", "use": "@now/node" }
   ],
   "routes": [
-    { "src": "/api/activate/(.*)", "dest": "/api/routes/activate?verificationToken=$1" },
-    { "src": "/api/auth/(.*)", "dest": "/api/routes/auth?verificationToken=$1" },
+    {
+      "src": "/api/activate/(.*)",
+      "dest": "/api/routes/activate?verificationToken=$1"
+    },
+    {
+      "src": "/api/auth/(.*)",
+      "dest": "/api/routes/auth?verificationToken=$1"
+    },
     { "src": "/api/(.*)", "dest": "/api/routes/$1" },
     { "src": "/auth/(.*)", "dest": "/app/auth?verificationToken=$1" },
     { "src": "/activate/(.*)", "dest": "/app/activate?verificationToken=$1" },
+    { "src": "/error", "dest": "/app/_error" },
     { "src": "/(.*)", "dest": "/app/$1" }
   ]
 }

@@ -1,8 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import { useRouter } from 'next/router';
-
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import flowRight from 'lodash/flowRight';
@@ -23,8 +21,7 @@ const enhance = flowRight(
 );
 
 const Header = ({ user, actions }) => {
-  const router = useRouter();
-  const isLoggedIn = typeof get(user, 'id') === 'number';
+  if (typeof get(user, 'id') === 'number') return null;
   return (
     <header className={styles.bar}>
       <Container className={styles['two-columns']}>
@@ -32,22 +29,9 @@ const Header = ({ user, actions }) => {
           The Revisionist
         </button>
         <nav>
-          {isLoggedIn ? (
-            <>
-              <button type="button" className={styles.button} onClick={actions.logout}>
-                Logout
-              </button>
-            </>
-          ) : (
-            <>
-              <button type="button" className={styles.button} onClick={() => router.push('/login')}>
-                Login
-              </button>
-              <button type="button" className={styles.button}>
-                Join Free
-              </button>
-            </>
-          )}
+          <button type="button" className={styles.button} onClick={actions.logout}>
+            Logout
+          </button>
         </nav>
       </Container>
     </header>

@@ -15,6 +15,7 @@ import HeatCalendar from '../components/HeatCalendar';
 import ToDoList from '../components/ToDoList';
 import CustomDragLayer from '../components/CustomDragLayer';
 import withRedux from '../components/withRedux';
+import withAuth from '../components/withAuth';
 
 import { eventsType, eventsDefaultProps } from '../types/event';
 import { todosType, todosDefaultProps } from '../types/todo';
@@ -56,7 +57,6 @@ const index = ({
 
 index.getInitialProps = async ({ store }) => {
   await store.dispatch(fetchLoginStatus());
-
   return {};
 };
 
@@ -100,6 +100,7 @@ const connectedIndex = connect(
 const enhance = flowRight(
   DragDropContext(HTML5Backend),
   withRedux,
+  withAuth,
 );
 
 export default enhance(connectedIndex);

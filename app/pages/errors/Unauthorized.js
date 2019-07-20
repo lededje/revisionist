@@ -5,8 +5,8 @@ import LoginForm from '../components/LoginForm';
 
 const Login = () => (
   <>
-    <h1>Login</h1>
-    <div>Login</div>
+    <h1>Unauthorized</h1>
+    <div>Maybe logging in will help</div>
     <LoginForm />
   </>
 );
