@@ -3,6 +3,8 @@ import { json, send } from 'micro';
 
 import { UniqueConstraintError } from 'sequelize';
 
+import hostname from '../../utils/hostname';
+
 import { User } from '../../models';
 import { UNIQUE_CONSTRAINT_ERROR, MALFORMED_JSON, INTERNAL_SERVER_ERROR } from '../../errors';
 
@@ -29,7 +31,7 @@ export default async (req, res) => {
     }
   }
 
-  const verificationLink = `https://revisionist.miles.dev/activate/${newUser.verificationToken}`;
+  const verificationLink = hostname(`/activate/${newUser.verificationToken}`);
 
   await email({
     to: newUser.email,
