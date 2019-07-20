@@ -14,7 +14,7 @@ if (SENTRY_API_DSN) {
 
 export default route => async (ctx) => {
   try {
-    await route.call(ctx);
+    await route.apply(ctx);
   } catch (e) {
     if (SENTRY_API_DSN) {
       Sentry.captureException(e);
