@@ -12,15 +12,15 @@ if (SENTRY_API_DSN) {
   });
 }
 
-export default route => async (ctx) => {
+export default route => async (req, res, ...rest) => {
   try {
-    await route.apply(ctx);
+    await route.apply(null, [req, res, ...rest]);
   } catch (e) {
     if (SENTRY_API_DSN) {
       Sentry.captureException(e);
       return;
     }
     console.error(e);
-    send(ctx.res, 500, { error: INTERNAL_SERVER_ERROR });
+    send(res, 500, { error: INTERNAL_SERVER_ERROR });
   }
 };
