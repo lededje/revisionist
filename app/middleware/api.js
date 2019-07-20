@@ -24,8 +24,6 @@ const defaultOptions = {
 const api = store => next => (action) => {
   if (!action.endpoint) return next(action);
 
-  next({ type: `${action.type}_REQUEST` });
-
   const isServer = typeof window === 'undefined';
   const { host, cookie } = store.getState().request;
 
@@ -41,6 +39,8 @@ const api = store => next => (action) => {
   if (options.headers['content-type'] === 'application/json' && options.body) {
     options.body = JSON.stringify(options.body);
   }
+
+  next({ type: `${action.type}_REQUEST`, options: action.options });
 
   return fetch(url, options)
     .then((response) => {

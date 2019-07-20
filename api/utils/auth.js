@@ -31,7 +31,7 @@ export const getUser = async (req) => {
 export default next => async (req, res) => {
   let user;
   try {
-    user = getUser(req, res);
+    user = await getUser(req, res);
   } catch (e) {
     switch (e.reason) {
       case ACCESS_TOKEN_MISSING: {

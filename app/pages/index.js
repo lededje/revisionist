@@ -18,7 +18,7 @@ import withRedux from '../components/withRedux';
 
 import { eventsType, eventsDefaultProps } from '../types/event';
 import { todosType, todosDefaultProps } from '../types/todo';
-import { createEvent, updateEvent } from '../actions/events';
+import { createEvent, updateEvent, getEvents } from '../actions/events';
 import { fetchLoginStatus } from '../actions/user';
 import { setFocus } from '../actions/calendar';
 
@@ -56,6 +56,7 @@ const index = ({
 
 index.getInitialProps = async ({ store }) => {
   await store.dispatch(fetchLoginStatus());
+  await store.dispatch(getEvents());
 
   return {};
 };
@@ -76,7 +77,7 @@ const connectedIndex = connect(
   (state) => {
     const { events, todos } = state.events.events.reduce(
       (acc, event) => {
-        const type = isUndefined(event.startTime) === false ? 'events' : 'todos';
+        const type = isUndefined(event.startTime) || event.startTime === null ? 'todos' : 'events';
 
         return {
           ...acc,

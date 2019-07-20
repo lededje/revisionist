@@ -1,5 +1,12 @@
 import crud from '../../utils/crud';
 import create from './create';
+import read from './read';
+import patch from './patch';
 import deleteRoute from './delete';
 
-export default crud({ create, delete: deleteRoute });
+export default crud({
+  create,
+  read,
+  delete: deleteRoute,
+  patch,
+});

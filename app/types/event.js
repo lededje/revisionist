@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 
 const eventType = {
-  id: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
   startTime: PropTypes.string,
   duration: PropTypes.number,
   label: PropTypes.string,
