@@ -5,6 +5,8 @@ import { User } from '../../models';
 import sendEmail from '../../utils/email';
 import { createAuthInstance, createWordCode } from '../../utils/security';
 
+import hostname from '../../utils/hostname';
+
 export default async (req, res) => {
   let body;
   try {
@@ -34,7 +36,7 @@ export default async (req, res) => {
 
   const randomWords = createWordCode();
 
-  const link = `https://revisionist.miles.dev/auth/${auth.verificationToken}`;
+  const link = hostname(`/auth/${auth.verificationToken}`);
 
   await sendEmail({
     to: user.email,
