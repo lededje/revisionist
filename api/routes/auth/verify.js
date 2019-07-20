@@ -10,7 +10,6 @@ import {
   VERIFICATION_TOKEN_EXPIRED,
   VERIFICATION_TOKEN_NOT_FOUND,
   INVALID_VERIFICATION_TOKEN,
-  INTERNAL_SERVER_ERROR,
 } from '../../errors';
 
 export default async (req, res) => {
@@ -33,8 +32,7 @@ export default async (req, res) => {
         return;
       }
       default: {
-        send(res, 500, { error: INTERNAL_SERVER_ERROR });
-        return;
+        throw error;
       }
     }
   }

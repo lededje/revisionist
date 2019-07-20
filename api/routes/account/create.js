@@ -6,7 +6,7 @@ import { UniqueConstraintError } from 'sequelize';
 import hostname from '../../utils/hostname';
 
 import { User } from '../../models';
-import { UNIQUE_CONSTRAINT_ERROR, MALFORMED_JSON, INTERNAL_SERVER_ERROR } from '../../errors';
+import { UNIQUE_CONSTRAINT_ERROR, MALFORMED_JSON } from '../../errors';
 
 import email from '../../utils/email';
 
@@ -27,7 +27,7 @@ export default async (req, res) => {
       case error instanceof UniqueConstraintError:
         return send(res, 400, { error: UNIQUE_CONSTRAINT_ERROR });
       default:
-        return send(res, 500, { error: INTERNAL_SERVER_ERROR });
+        throw error;
     }
   }
 
