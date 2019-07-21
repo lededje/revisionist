@@ -1,4 +1,4 @@
-import mailgun from 'mailgun-js';
+const mailgun = require('mailgun-js');
 
 const { MAILGUN_API_DOMAIN, MAILGUN_API_KEY } = process.env;
 
@@ -20,4 +20,4 @@ const email = async ({
   });
 };
 
-export default email;
+module.exports = email;

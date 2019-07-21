@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+const Sequelize = require('sequelize');
 
 const { Model } = Sequelize;
 
@@ -64,4 +64,4 @@ class Auth extends Model {
   }
 }
 
-export default Auth;
+module.exports = Auth;

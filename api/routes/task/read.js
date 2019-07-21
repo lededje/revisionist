@@ -1,8 +1,8 @@
-import { send } from 'micro';
+const { send } = require('micro');
 
-import auth from '../../utils/auth';
+const auth = require('../../utils/auth');
 
-export default auth(async (req, res, user) => {
+module.exports = auth(async (req, res, user) => {
   const tasks = await user.getTasks({
     attributes: ['id', 'startTime', 'duration', 'label'],
   });

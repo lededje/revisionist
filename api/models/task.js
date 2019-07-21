@@ -1,4 +1,4 @@
-import Sequelize from 'sequelize';
+const Sequelize = require('sequelize');
 
 const { Model } = Sequelize;
 
@@ -43,4 +43,4 @@ class Task extends Model {
   }
 }
 
-export default Task;
+module.exports = Task;

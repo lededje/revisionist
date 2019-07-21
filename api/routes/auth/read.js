@@ -1,9 +1,9 @@
-import { send } from 'micro';
-import pick from 'lodash/pick';
+const { send } = require('micro');
+const pick = require('lodash/pick');
 
-import { getUser } from '../../utils/auth';
+const { getUser } = require('../../utils/auth');
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   let user;
   try {
     user = await getUser(req, res);

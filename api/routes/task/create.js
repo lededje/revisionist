@@ -1,11 +1,11 @@
-import pick from 'lodash/pick';
-import { json, send } from 'micro';
+const pick = require('lodash/pick');
+const { json, send } = require('micro');
 
-import { MALFORMED_JSON } from '../../errors';
+const { MALFORMED_JSON } = require('../../errors');
 
-import auth from '../../utils/auth';
+const auth = require('../../utils/auth');
 
-export default auth(async (req, res, user) => {
+module.exports = auth(async (req, res, user) => {
   let body;
 
   try {

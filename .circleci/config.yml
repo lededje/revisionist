@@ -1,0 +1,88 @@
+defaults: &defaults
+  docker:
+    - image: docker:17.09-git
+  working_directory: /app/
+
+version: 2.1
+
+commands:
+  load_build_and_cache_image:
+    parameters:
+      key:
+        type: string
+      dir:
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - dep-cache-<< parameters.key >>-{{ .Revision }}
+            - dep-cache-<< parameters.key >>-
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/<< parameters.key >>.tar | true
+      - run:
+          name: Build application Docker image
+          command: |
+            docker build --cache-from=<< parameters.key >>:latest -t << parameters.key >>:latest /app/<< parameters.dir >>
+      - run:
+          name: Save Docker image layer cache
+          command: |
+            mkdir -p /caches
+            docker save -o /caches/<< parameters.key >>.tar << parameters.key >>:latest
+      - save_cache:
+          key: dep-cache-<< parameters.key >>-{{ .Revision }}
+          paths:
+            - /caches/<< parameters.key >>.tar
+  load_test_image:
+    parameters:
+      key:
+        type: string
+      dir:
+        type: string
+      test_command:
+        type: string
+        default: npm run test
+    steps:
+      - checkout
+      - setup_remote_docker
+      - run:
+          name: Install build dependencies
+          command: apk add --no-cache curl curl-dev bash # for codecov
+      - restore_cache:
+          keys:
+            - dep-cache-<< parameters.key >>-{{ .Revision }}
+            - dep-cache-<< parameters.key >>-
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/<< parameters.key >>.tar | true
+      - run:
+          name: Test the image
+          command: docker run --name << parameters.key >> << parameters.key >>:latest << parameters.test_command >>
+      - run:
+          name: Gather and push coverage
+          command: |
+            docker cp << parameters.key >>:/app/coverage/lcov.info coverage.info
+            sed -i -e 's:/app/:<< parameters.dir >>/:g' coverage.info
+            ./bin/codecov.sh -f coverage.info
+
+jobs:
+  build-api:
+    <<: *defaults
+    steps:
+      - load_build_and_cache_image:
+        key: api
+        dir: api
+  test-api:
+    <<: *defaults
+    steps:
+      - load_test_image:
+          key: api
+          dir: api
+        requires:
+          - build-api

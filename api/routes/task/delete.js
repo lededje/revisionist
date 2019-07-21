@@ -1,10 +1,10 @@
-import { send, json } from 'micro';
+const { send, json } = require('micro');
 
-import auth from '../../utils/auth';
+const auth = require('../../utils/auth');
 
-import { MALFORMED_JSON, TASK_NOT_FOUND } from '../../errors';
+const { MALFORMED_JSON, TASK_NOT_FOUND } = require('../../errors');
 
-export default auth(async (req, res, user) => {
+module.exports = auth(async (req, res, user) => {
   let body;
   try {
     body = await json(req);

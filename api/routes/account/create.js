@@ -1,16 +1,13 @@
-import pick from 'lodash/pick';
-import { json, send } from 'micro';
+const { json, send } = require('micro');
+const pick = require('lodash/pick');
+const { UniqueConstraintError } = require('sequelize');
 
-import { UniqueConstraintError } from 'sequelize';
+const hostname = require('../../utils/hostname');
+const { User } = require('../../models');
+const { UNIQUE_CONSTRAINT_ERROR, MALFORMED_JSON } = require('../../errors');
+const email = require('../../utils/email');
 
-import hostname from '../../utils/hostname';
-
-import { User } from '../../models';
-import { UNIQUE_CONSTRAINT_ERROR, MALFORMED_JSON } from '../../errors';
-
-import email from '../../utils/email';
-
-export default async (req, res) => {
+module.exports = async (req, res) => {
   let body;
 
   try {

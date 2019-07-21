@@ -1,9 +1,9 @@
-import Sequelize from 'sequelize';
-import pg from 'pg';
+const Sequelize = require('sequelize');
+const pg = require('pg');
 
-import user from './user';
-import task from './task';
-import auth from './auth';
+const user = require('./user');
+const task = require('./task');
+const auth = require('./auth');
 
 const {
   DB_HOST, DB_NAME, DB_USER, DB_PASSWORD,
@@ -21,9 +21,9 @@ const sequelize = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   },
 });
 
-export const User = user.init(sequelize, Sequelize);
-export const Task = task.init(sequelize, Sequelize);
-export const Auth = auth.init(sequelize, Sequelize);
+const User = user.init(sequelize, Sequelize);
+const Task = task.init(sequelize, Sequelize);
+const Auth = auth.init(sequelize, Sequelize);
 
 const models = {
   User,
@@ -35,4 +35,9 @@ Object.values(models)
   .filter(model => typeof model.associate === 'function')
   .forEach(model => model.associate(models));
 
-export { sequelize };
+module.exports = {
+  sequelize,
+  User,
+  Task,
+  Auth,
+};

@@ -1,3 +1,3 @@
-export default length => new Promise((resolve) => {
+module.exports = length => new Promise((resolve) => {
   setTimeout(resolve, length);
 });

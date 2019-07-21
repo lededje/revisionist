@@ -1,4 +1,4 @@
-import sample from 'lodash/sample';
+const sample = require('lodash/sample');
 
 const words = [
   'abandon',
@@ -2056,4 +2056,4 @@ const words = [
 
 const sampleWords = count => new Array(count).fill('').map(() => sample(words));
 
-export default sampleWords;
+module.exports = sampleWords;

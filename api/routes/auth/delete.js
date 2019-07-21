@@ -1,10 +1,10 @@
-import { send } from 'micro';
+const { send } = require('micro');
 
-import secureCookie from '../../utils/security';
+const secureCookie = require('../../utils/security');
 
-import { Auth } from '../../models';
+const { Auth } = require('../../models');
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   const cookies = req.cookie;
 
   const auth = await Auth.findOne({

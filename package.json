@@ -5,10 +5,6 @@
   },
   "version": "1.0.0",
   "description": "",
-  "workspaces": [
-    "api",
-    "app"
-  ],
   "main": "index.js",
   "scripts": {
     "test": "jest",
