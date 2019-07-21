@@ -12,7 +12,5 @@ module.exports = async (req, res) => {
     databaseConnection = false;
   }
 
-  undefinedfnfnfnfnfn();
-
   send(res, 200, { version: packageJson.version, databaseConnection });
 };
