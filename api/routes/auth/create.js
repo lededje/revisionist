@@ -1,13 +1,13 @@
-import { send, json } from 'micro';
+const { send, json } = require('micro');
 
-import { USER_NOT_FOUND, MALFORMED_JSON, EXPECTED_VALUES_MISSING } from '../../errors';
-import { User } from '../../models';
-import sendEmail from '../../utils/email';
-import { createAuthInstance, createWordCode } from '../../utils/security';
+const { USER_NOT_FOUND, MALFORMED_JSON, EXPECTED_VALUES_MISSING } = require('../../errors');
+const { User } = require('../../models');
+const sendEmail = require('../../utils/email');
+const { createAuthInstance, createWordCode } = require('../../utils/security');
 
-import hostname from '../../utils/hostname';
+const hostname = require('../../utils/hostname');
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   let body;
   try {
     body = await json(req);

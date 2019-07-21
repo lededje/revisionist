@@ -1,11 +1,11 @@
-import { send } from 'micro';
+const { send } = require('micro');
 
-import { authIsValid, secureCookie } from './security';
+const { authIsValid, secureCookie } = require('./security');
 
-import { Auth } from '../models';
-import { ACCESS_TOKEN_MISSING, ACCESS_TOKEN_INVALID } from '../errors';
+const { Auth } = require('../models');
+const { ACCESS_TOKEN_MISSING, ACCESS_TOKEN_INVALID } = require('../errors');
 
-export const getUser = async (req) => {
+const getUser = async (req) => {
   const { cookies } = req;
   const { accessToken } = cookies;
 
@@ -28,7 +28,7 @@ export const getUser = async (req) => {
   return auth.getUser();
 };
 
-export default next => async (req, res) => {
+const auth = next => async (req, res) => {
   let user;
   try {
     user = await getUser(req, res);
@@ -52,3 +52,7 @@ export default next => async (req, res) => {
 
   await next(req, res, user);
 };
+
+auth.getUser = getUser;
+
+module.exports = auth;

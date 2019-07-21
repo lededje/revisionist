@@ -1,8 +1,8 @@
-import * as Sentry from '@sentry/node';
+const Sentry = require('@sentry/node');
 
-import { send } from 'micro';
+const { send } = require('micro');
 
-import { INTERNAL_SERVER_ERROR } from '../errors';
+const { INTERNAL_SERVER_ERROR } = require('../errors');
 
 const { SENTRY_API_DSN } = process.env;
 
@@ -12,7 +12,7 @@ if (SENTRY_API_DSN) {
   });
 }
 
-export default route => async (req, res, ...rest) => {
+module.exports = route => async (req, res, ...rest) => {
   try {
     await route.apply(null, [req, res, ...rest]);
   } catch (e) {

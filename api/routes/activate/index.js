@@ -1,9 +1,9 @@
-import crud from '../../utils/crud';
+const crud = require('../../utils/crud');
 
-import activate from './activate';
-import withSentry from '../../utils/withSentry';
+const activate = require('./activate');
+const withSentry = require('../../utils/withSentry');
 
-export default withSentry(
+module.exports = withSentry(
   crud({
     patch: activate,
   }),

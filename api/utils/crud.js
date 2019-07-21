@@ -1,10 +1,10 @@
-import { send } from 'micro';
+const { send } = require('micro');
 
-import { INVALID_METHOD } from '../errors';
+const { INVALID_METHOD } = require('../errors');
 
-export const invalidMethod = (req, res) => send(res, 405, { error: INVALID_METHOD, method: req.method, url: req.url });
+const invalidMethod = (req, res) => send(res, 405, { error: INVALID_METHOD, method: req.method, url: req.url });
 
-export default ({
+const crud = ({
   create = invalidMethod,
   read = invalidMethod,
   update = invalidMethod,
@@ -26,3 +26,7 @@ export default ({
       return invalidMethod(req, res);
   }
 };
+
+crud.invalidMethod = invalidMethod;
+
+module.exports = crud;

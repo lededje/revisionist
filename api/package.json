@@ -8,6 +8,7 @@
   "main": "index.js",
   "scripts": {
     "migrate": "sequelize db:migrate",
+    "dev": "nodemon -r dotenv/config ./index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -15,11 +16,16 @@
   "license": "ISC",
   "dependencies": {
     "@sentry/node": "5.5.0",
+    "body-parser": "^1.19.0",
     "cookie": "^0.4.0",
+    "cookie-parser": "^1.4.4",
+    "express": "^4.17.1",
     "lodash": "^4.17.13",
     "mailgun-js": "^0.22.0",
     "micro": "^9.3.4",
     "moment": "^2.24.0",
+    "morgan": "^1.9.1",
+    "nodemon": "^1.19.1",
     "pg": "^7.11.0",
     "pg-hstore": "^2.3.3",
     "proxy-addr": "^2.0.5",
@@ -28,6 +34,7 @@
     "sequelize": "^5.9.0"
   },
   "devDependencies": {
+    "dotenv": "^8.0.0",
     "sequelize-cli": "^5.5.0"
   }
 }

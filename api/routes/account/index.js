@@ -1,10 +1,10 @@
-import crud from '../../utils/crud';
+const crud = require('../../utils/crud');
 
-import create from './create';
+const create = require('./create');
 
-import withSentry from '../../utils/withSentry';
+const withSentry = require('../../utils/withSentry');
 
-export default withSentry(
+module.exports = withSentry(
   crud({
     create,
   }),

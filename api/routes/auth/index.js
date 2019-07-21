@@ -1,13 +1,13 @@
-import crud from '../../utils/crud';
+const crud = require('../../utils/crud');
 
-import read from './read';
-import create from './create';
-import patch from './verify';
-import deleteRoute from './delete';
+const read = require('./read');
+const create = require('./create');
+const patch = require('./verify');
+const deleteRoute = require('./delete');
 
-import withSentry from '../../utils/withSentry';
+const withSentry = require('../../utils/withSentry');
 
-export default withSentry(
+module.exports = withSentry(
   crud({
     create,
     read,

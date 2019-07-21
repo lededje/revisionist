@@ -1,18 +1,18 @@
-import { send } from 'micro';
-import { DatabaseError } from 'sequelize';
-import moment from 'moment';
+const { send } = require('micro');
+const { DatabaseError } = require('sequelize');
+const moment = require('moment');
 
-import { Auth } from '../../models';
+const { Auth } = require('../../models');
 
-import { secureCookie, verifyAuthInstance } from '../../utils/security';
+const { secureCookie, verifyAuthInstance } = require('../../utils/security');
 
-import {
+const {
   VERIFICATION_TOKEN_EXPIRED,
   VERIFICATION_TOKEN_NOT_FOUND,
   INVALID_VERIFICATION_TOKEN,
-} from '../../errors';
+} = require('../../errors');
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   const { verificationToken } = req.query;
 
   if (!verificationToken) {

@@ -1,10 +1,10 @@
-import { send } from 'micro';
+const { send } = require('micro');
 
-import packageJson from '../package.json';
-import { sequelize } from '../models';
-import withSentry from '../utils/withSentry';
+const packageJson = require('../package.json');
+const { sequelize } = require('../models');
+const withSentry = require('../utils/withSentry');
 
-export default withSentry(async (req, res) => {
+module.exports = withSentry(async (req, res) => {
   let databaseConnection;
   try {
     await sequelize.authenticate();

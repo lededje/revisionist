@@ -1,16 +1,16 @@
-import { send } from 'micro';
-import { DatabaseError } from 'sequelize';
+const { send } = require('micro');
+const { DatabaseError } = require('sequelize');
 
-import { User } from '../../models';
-import {
+const { User } = require('../../models');
+const {
   VERIFICATION_TOKEN_NOT_FOUND,
   INVALID_VERIFICATION_TOKEN,
   USER_ALREADY_VERIFIED,
-} from '../../errors';
+} = require('../../errors');
 
-import { createAuthInstance, secureCookie } from '../../utils/security';
+const { createAuthInstance, secureCookie } = require('../../utils/security');
 
-export default async (req, res) => {
+module.exports = async (req, res) => {
   const { verificationToken } = req.query;
 
   if (!verificationToken) {
