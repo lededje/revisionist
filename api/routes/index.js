@@ -2,9 +2,8 @@ const { send } = require('micro');
 
 const packageJson = require('../package.json');
 const { sequelize } = require('../models');
-const withSentry = require('../utils/withSentry');
 
-module.exports = withSentry(async (req, res) => {
+module.exports = async (req, res) => {
   let databaseConnection;
   try {
     await sequelize.authenticate();
@@ -13,5 +12,7 @@ module.exports = withSentry(async (req, res) => {
     databaseConnection = false;
   }
 
+  undefinedfnfnfnfnfn();
+
   send(res, 200, { version: packageJson.version, databaseConnection });
-});
+};

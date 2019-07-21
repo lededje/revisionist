@@ -4,13 +4,9 @@ const read = require('./read');
 const patch = require('./patch');
 const deleteRoute = require('./delete');
 
-const withSentry = require('../../utils/withSentry');
-
-module.exports = withSentry(
-  crud({
-    create,
-    read,
-    delete: deleteRoute,
-    patch,
-  }),
-);
+module.exports = crud({
+  create,
+  read,
+  delete: deleteRoute,
+  patch,
+});
