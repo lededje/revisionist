@@ -41,6 +41,8 @@ resource "aws_security_group" "alb" {
   name   = "${var.alb_name}_alb"
   vpc_id = var.vpc_id
 
+  description = "Used in for alb ${var.alb_name}"
+
   tags = {
     Environment = var.environment
   }

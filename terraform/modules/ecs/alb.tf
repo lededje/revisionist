@@ -2,9 +2,9 @@ module "alb" {
   source = "../alb"
 
   environment     = var.environment
-  alb_name        = "${var.cluster}-${var.environment}"
-  vpc_id          = module.vpc.id
-  subnet_ids      = module.vpc.subnet_ids
+  alb_name        = "${var.cluster}"
+  vpc_id          = var.vpc_id
+  subnet_ids      = var.subnets
   certificate_arn = var.certificate_arn
 }
 

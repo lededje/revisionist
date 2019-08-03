@@ -1,30 +1,50 @@
-module "vpc" {
-  source = "../vpc"
+data "aws_ami" "ecs_ami" {
+  most_recent = true
+  owners      = ["amazon"]
 
-  az1 = "eu-west-1a"
-  az2 = "eu-west-1b"
-  az3 = "eu-west-1c"
+  filter {
+    name   = "name"
+    values = ["amzn-ami-*-amazon-ecs-optimized"]
+  }
+
+  filter {
+    name   = "architecture"
+    values = ["x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
+}
+
+resource "aws_ecs_cluster" "cluster" {
+  name = var.cluster
 }
 
 module "ecs_instances" {
   source = "../ecs_instances"
 
-  environment             = var.environment
-  cluster                 = var.cluster
-  instance_group          = var.instance_group
-  aws_ami                 = var.ecs_aws_ami
-  subnets                 = module.vpc.subnet_ids
-  instance_type           = var.instance_type
-  max_size                = var.max_size
-  min_size                = var.min_size
-  desired_capacity        = var.desired_capacity
-  vpc_id                  = module.vpc.id #
-  iam_instance_profile_id = aws_iam_instance_profile.ecs.id
-  key_name                = var.key_name
-  target_groups           = [module.alb.default_alb_target_group]
-  cloudwatch_prefix    = var.cloudwatch_prefix
-}
+  environment = var.environment
 
-resource "aws_ecs_cluster" "cluster" {
-  name = var.cluster
+  cluster        = aws_ecs_cluster.cluster.name
+  instance_group = var.instance_group
+
+  aws_ami       = data.aws_ami.ecs_ami.image_id
+  instance_type = var.instance_type
+
+  max_size         = var.max_size
+  min_size         = var.min_size
+  desired_capacity = var.desired_capacity
+
+  subnets = var.subnets
+  vpc_id  = var.vpc_id
+
+  iam_instance_profile_id = aws_iam_instance_profile.ecs.id
+
+  key_name = var.key_name
+
+  target_groups = [module.alb.default_alb_target_group]
+
+  cloudwatch_prefix = var.cloudwatch_prefix
 }

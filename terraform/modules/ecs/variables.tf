@@ -1,17 +1,14 @@
+variable "cluster" {
+  description = "The name of the cluster"
+}
+
+variable "instance_group" {
+  default     = "default"
+  description = "The name of the instances that you consider as a group"
+}
+
 variable "environment" {
   description = "The name of the environment, e.g: staging"
-}
-
-variable "cluster" {
-  description = "The name of the ecs cluster"
-}
-
-variable "instance_type" {
-  description = "The type of instances the ecs cluster should spawn"
-}
-
-variable "ecs_aws_ami" {
-  description = "The instance AMI for the cluster images"
 }
 
 variable "max_size" {
@@ -26,17 +23,25 @@ variable "desired_capacity" {
   description = "The desired amount of instances ecs cluster aim for"
 }
 
-variable "key_name" {
-  description = "Access key for access to ec2 instance. In production null key is recommended"
-}
-
-variable "instance_group" {
-  default     = "default"
-  description = "The name of the instances that you consider as a group"
+variable "instance_type" {
+  description = "The type of instances the ecs cluster should spawn"
 }
 
 variable "certificate_arn" {
-  description = "The arn of the certificiate the alb should be using"
+  description = "The ssl certificate arn"
+}
+
+variable "subnets" {
+  type        = list(string)
+  description = "List of subnets from the chosen vpc"
+}
+
+variable "vpc_id" {
+  description = "VPC to deploy the cluster to"
+}
+
+variable "key_name" {
+  description = "Access key for access to ec2 instance. In production null key is recommended"
 }
 
 variable "cloudwatch_prefix" {

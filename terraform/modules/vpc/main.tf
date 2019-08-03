@@ -1,30 +1,33 @@
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 resource "aws_default_vpc" "default" {
   tags = {
     name = "Default VPC"
   }
 }
 
-resource "aws_default_subnet" "default_az1" {
-  availability_zone = var.az1
+resource "aws_default_subnet" "primary" {
+  availability_zone = data.aws_availability_zones.available.names[0]
 
   tags = {
-    Name = "Default subnet for ${var.az1}"
+    Name = "Default subnet for ${data.aws_availability_zones.available.names[0]}"
   }
 }
 
-resource "aws_default_subnet" "default_az2" {
-  availability_zone = var.az2
+resource "aws_default_subnet" "secondary" {
+  availability_zone = data.aws_availability_zones.available.names[1]
 
   tags = {
-    Name = "Default subnet for ${var.az2}"
+    Name = "Default subnet for ${data.aws_availability_zones.available.names[1]}"
   }
 }
 
-resource "aws_default_subnet" "default_az3" {
-  availability_zone = var.az3
+resource "aws_default_subnet" "tertiary" {
+  availability_zone = data.aws_availability_zones.available.names[2]
 
   tags = {
-    Name = "Default subnet for ${var.az3}"
+    Name = "Default subnet for ${data.aws_availability_zones.available.names[2]}"
   }
 }
-

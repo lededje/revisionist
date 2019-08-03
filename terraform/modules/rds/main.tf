@@ -1,0 +1,37 @@
+locals {
+  password = var.db_password == "" ? random_id.master_password.b64 : var.db_password
+}
+
+
+resource "random_id" "master_password" {
+  byte_length = 10
+}
+
+resource "aws_db_instance" "db" {
+  identifier                = "db-${var.environment}-${var.name}"
+  allocated_storage         = 20
+  storage_type              = "gp2"
+  engine                    = "postgres"
+  engine_version            = "11.4"
+  instance_class            = var.intance_class
+  name                      = var.name
+  backup_retention_period   = 7
+  final_snapshot_identifier = "${var.name}-${var.environment}"
+  backup_window             = "02:00-02:30"
+  multi_az                  = "false"
+  storage_encrypted         = "false"
+  apply_immediately         = "false"
+  monitoring_interval       = "60"
+  username                  = var.db_username
+  password                  = local.password
+  vpc_security_group_ids    = [aws_security_group.postgres.id]
+  monitoring_role_arn       = aws_iam_role.rds_monitoring.arn
+
+
+  # Skip final snapshot for environments that are not production
+  skip_final_snapshot = var.environment != "production"
+
+  tags = {
+    Environment = var.environment
+  }
+}
