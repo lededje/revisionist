@@ -1,7 +1,7 @@
 locals {
-  password = var.db_password == "" ? random_id.master_password.b64 : var.db_password
+  # Random password; change it when it's built else it will be stored in the tf s3 state.
+  password = random_id.master_password.b64
 }
-
 
 resource "random_id" "master_password" {
   byte_length = 10
@@ -26,7 +26,6 @@ resource "aws_db_instance" "db" {
   password                  = local.password
   vpc_security_group_ids    = [aws_security_group.postgres.id]
   monitoring_role_arn       = aws_iam_role.rds_monitoring.arn
-
 
   # Skip final snapshot for environments that are not production
   skip_final_snapshot = var.environment != "production"

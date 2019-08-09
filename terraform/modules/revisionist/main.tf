@@ -15,7 +15,6 @@ module "rds" {
   vpc_id        = module.vpc.id
   vpc_cidr      = module.vpc.cidr_block
   db_username   = var.db_username
-  db_password   = var.db_password
 }
 
 module "ecs" {

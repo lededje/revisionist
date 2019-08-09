@@ -5,7 +5,6 @@ module "staging" {
   environment = "staging"
 
   db_username = var.db_username
-  db_password = var.db_password
 
   max_size         = 2
   min_size         = 1

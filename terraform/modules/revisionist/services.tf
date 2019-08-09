@@ -2,10 +2,8 @@ module "ecs_roles" {
   source = "../ecs_roles"
 
   environment = var.environment
-  cluster     = "revisionist-default-${var.environment}"
-  # cluster     = locals.cluster
+  cluster     = local.cluster
 }
-
 
 resource "aws_cloudwatch_log_group" "docker" {
   name              = "${var.cloudwatch_prefix}/var/log/docker"
@@ -49,7 +47,6 @@ resource "aws_ecs_service" "webservices" {
 resource "aws_ecs_task_definition" "default_task_definition" {
   family        = "${var.environment}_revisionist"
   task_role_arn = module.ecs_roles.arn
-  # task_role_arn = aws_iam_role.ecs_instance_role.arn
 
   container_definitions = data.template_file.tasks.rendered
 }
