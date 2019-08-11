@@ -1,9 +1,10 @@
-defaults: &defaults
-  docker:
-    - image: docker:17.09-git
-  working_directory: /app/
-
 version: 2.1
+
+executors:
+  default:
+    working_directory: /app/
+    docker:
+      - image: docker:17.09-git
 
 commands:
   load_build_and_cache_image:
@@ -70,19 +71,34 @@ commands:
             docker cp << parameters.key >>:/app/coverage/lcov.info coverage.info
             sed -i -e 's:/app/:<< parameters.dir >>/:g' coverage.info
             ./bin/codecov.sh -f coverage.info
+  load_push_image:
+    parameters:
+      key:
+        type: string
+      dir:
+        type: string
+    steps:
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - dep-cache-<< parameters.key >>-{{ .Revision }}
+            - dep-cache-<< parameters.key >>-
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/<< parameters.key >>.tar | true
 
 jobs:
-  build-api:
-    <<: *defaults
+  build-nginx:
+    executor: default
     steps:
       - load_build_and_cache_image:
-        key: api
-        dir: api
-  test-api:
-    <<: *defaults
-    steps:
-      - load_test_image:
-          key: api
-          dir: api
-        requires:
-          - build-api
+          key: nginx
+          dir: nginx
+
+workflows:
+  version: 2
+  build_accept_deploy:
+    jobs:
+      - build-nginx
