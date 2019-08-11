@@ -25,14 +25,18 @@ resource "aws_iam_policy" "ecr_push" {
   path        = "/"
   description = "A policy that allows containers and layers to be pushed to repositories"
 
-  policy = data.aws_iam_policy_document.ECS.json
+  policy = data.aws_iam_policy_document.ecr_push.json
 }
 
-data "aws_iam_policy_document" "ECS" {
+data "aws_iam_policy_document" "ecr_push" {
   statement {
     actions = [
       "ecr:UploadLayerPart",
-      "ecr:PutImage"
+      "ecr:PutImage",
+      "ecr:GetAuthorizationToken",
+      "ecr:InitiateLayerUpload",
+      "ecr:CompleteLayerUpload",
+      "ecr:BatchCheckLayerAvailability"
     ]
     resources = ["*"]
   }
@@ -43,16 +47,18 @@ resource "aws_iam_policy" "ecs_deploy" {
   path        = "/"
   description = "A policy that allows task definitions to be updated"
 
-  policy = data.aws_iam_policy_document.ECS.json
+  policy = data.aws_iam_policy_document.ecs_deploy.json
 }
 
-data "aws_iam_policy_document" "ECR" {
+data "aws_iam_policy_document" "ecs_deploy" {
   statement {
-    actions   = ["ecs:UpdateService"]
-    resources = ["arn:aws:ecs:*:*:service/*"]
-  }
-  statement {
-    actions   = ["ecs:RegisterTaskDefinition"]
+    actions = [
+      "ecs:UpdateService",
+      "ecs:DescribeServices",
+      "ecs:DescribeTaskDefinition",
+      "ecs:RegisterTaskDefinition",
+      "iam:PassRole"
+    ]
     resources = ["*"]
   }
 }

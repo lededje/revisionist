@@ -101,6 +101,25 @@ commands:
           name: Push images
           command: |
             docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/revisionist/<< parameters.key >>:${CIRCLE_SHA1}
+    deploy:
+      parameters:
+        env:
+          type: string
+      steps:
+        - run:
+          name: Configure environment
+          command: |
+            echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV
+        - checkout
+        - run:
+          name: Deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ] then export ENVIRONMENT=production else export ENVIRONMENT=<< parameters.env >>; if
+            ./bin/ecs-deploy
+              --service=webservices-<< parameters.env >>
+              --task-name=<< parameters.env >>_revisionist
+              --cluster=revisionist-default-<< parameters.env >>
+              --image="nginx=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/revisionist/nginx:${CIRCLE_SHA1}"
 
 jobs:
   build-nginx:
@@ -115,6 +134,16 @@ jobs:
       - load_push_image:
           key: nginx
           dir: nginx
+  deploy-production:
+    executer: default
+    steps:
+      - deploy:
+        env: production
+  deploy-staging:
+    executer: default
+    steps:
+      - deploy:
+        env: staging
 
 workflows:
   version: 2
@@ -124,3 +153,11 @@ workflows:
       - push-nginx:
           requires:
             - build-nginx
+      - deploy-production
+        branches:
+          only:
+            - master
+      - deploy-staging
+        branches:
+          only:
+            - staging
