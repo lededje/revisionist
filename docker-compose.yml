@@ -1,12 +1,10 @@
-version: '3.3'
+version: "3.3"
 
 services:
   api:
     build: ./api
     restart: always
-    ports:
-      - '3000:3000'
-    command: 'npm run dev'
+    command: "npm run dev"
     environment:
       - DB_HOST=db
       - DB_NAME=revisionist
@@ -19,31 +17,31 @@ services:
       - SENTRY_ENVIRONMENT=dev
       - SENTRY_RELEASE=indev
       - NODE_ENV=
-      - PORT=3000
     volumes:
       - ./api:/app/
+      - /app/node_modules
+
+  webapp:
+    build: ./app
+    restart: always
+    command: "npm run dev"
+    environment:
+      - NODE_ENV=
+    volumes:
+      - ./app:/app/
       - /app/node_modules
 
   nginx:
     build: ./nginx
     ports:
-      - '2000:2000'
+      - "2000:80"
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
       - ./nginx/conf.d:/etc/nginx/conf.d
       - /app/node_modules
     depends_on:
-      - demo
-
-  demo:
-    build: ./demo
-    ports:
-      - '3000:3000'
-    environment:
-      - test_parameter=ping
-    volumes:
-      - ./demo:/app/
-      - /app/node_modules
+      - api
+      - webapp
 
   db:
     image: postgres:12-alpine
@@ -53,4 +51,4 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_DB=revisionist
     ports:
-      - '5432:5432'
+      - "5432:5432"

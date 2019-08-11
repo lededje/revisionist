@@ -39,10 +39,6 @@ module "ecs" {
   key_name = var.key_name
 }
 
-resource "aws_ecr_repository" "default" {
-  name = "revisionist-${var.environment}"
-}
-
 module "domain" {
   source = "../domain"
 

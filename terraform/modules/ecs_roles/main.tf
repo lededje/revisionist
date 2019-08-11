@@ -20,6 +20,12 @@ data "aws_iam_policy_document" "ecs_role_policy" {
     actions   = ["ssm:GetParameter"]
     effect    = "Allow"
     resources = ["*"]
+
+    condition {
+      test     = "StringEquals"
+      variable = "ssm:resourceTag/Environment"
+      values   = [var.environment]
+    }
   }
 }
 

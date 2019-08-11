@@ -16,11 +16,12 @@ data "template_file" "tasks" {
   template = "${file("${path.module}/services/webservices.json")}"
 
   vars = {
-    ecr_repository = aws_ecr_repository.default.repository_url
-    log_group      = aws_cloudwatch_log_group.docker.name
-    log_region     = data.aws_region.current.name
-    environment    = var.environment
-    task_arn       = module.ecs_roles.arn
+    ecr_nginx_repository = aws_ecr_repository.nginx.repository_url
+
+    log_group   = aws_cloudwatch_log_group.docker.name
+    log_region  = data.aws_region.current.name
+    environment = var.environment
+    task_arn    = module.ecs_roles.arn
   }
 }
 
@@ -30,8 +31,13 @@ resource "aws_ecs_service" "webservices" {
 
   task_definition = aws_ecs_task_definition.default_task_definition.arn
 
-  desired_count = 1
+  desired_count = 2
   launch_type   = "EC2"
+
+  ordered_placement_strategy {
+    type  = "spread"
+    field = "attribute:ecs.availability-zone"
+  }
 
   load_balancer {
     target_group_arn = module.ecs.default_alb_target_group

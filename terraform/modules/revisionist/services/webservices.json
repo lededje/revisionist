@@ -1,7 +1,7 @@
 [
   {
     "name": "nginx",
-    "image": "${ecr_repository}:nginx-latest",
+    "image": "${ecr_nginx_repository}:latest",
     "taskRoleArn": "${task_arn}",
     "cpu": 128,
     "memory": 128,
@@ -15,47 +15,11 @@
         "awslogs-group": "${log_group}"
       }
     },
-    "dependsOn": [
-      {
-        "containerName": "demo",
-        "condition": "HEALTHY"
-      }
-    ],
-    "links": ["demo"],
     "healthCheck": {
       "command": ["CMD-SHELL", "curl -f http://localhost/ || exit 1"],
       "interval": 30,
       "retries": 3,
       "timeout": 5
     }
-  },
-  {
-    "name": "demo",
-    "image": "${ecr_repository}:demo-latest",
-    "taskRoleArn": "${task_arn}",
-    "cpu": 128,
-    "memory": 128,
-    "essential": true,
-    "portMappings": [{ "containerPort": 3000 }],
-    "logConfiguration": {
-      "logDriver": "awslogs",
-      "options": {
-        "awslogs-stream-prefix": "revisionist-${environment}",
-        "awslogs-region": "${log_region}",
-        "awslogs-group": "${log_group}"
-      }
-    },
-    "healthCheck": {
-      "command": ["CMD-SHELL", "curl -f http://localhost:3000/ || exit 1"],
-      "interval": 30,
-      "retries": 3,
-      "timeout": 5
-    },
-    "environment": [
-      {
-        "name": "SSM_test_parameter",
-        "value": "test_parameter"
-      }
-    ]
   }
 ]
