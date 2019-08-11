@@ -78,6 +78,7 @@ commands:
       dir:
         type: string
     steps:
+      - checkout
       - setup_remote_docker
       - restore_cache:
           keys:
