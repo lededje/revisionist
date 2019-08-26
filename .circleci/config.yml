@@ -153,11 +153,13 @@ workflows:
       - push-nginx:
           requires:
             - build-nginx
-      - deploy-production
-        branches:
-          only:
-            - master
-      - deploy-staging
-        branches:
-          only:
-            - staging
+      - deploy-production:
+          filters:
+            branches:
+              only:
+                - master
+      - deploy-staging:
+          filters:
+            branches:
+              only:
+                - staging
