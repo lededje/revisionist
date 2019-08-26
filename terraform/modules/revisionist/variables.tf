@@ -40,3 +40,7 @@ variable "cloudwatch_prefix" {
 variable "db_username" {
   description = "Database username"
 }
+
+variable "db_instance_class" {
+  description = "Database instance class"
+}

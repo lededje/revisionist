@@ -4,13 +4,15 @@ module "staging" {
   domain      = "staging.revisionist.dev"
   environment = "staging"
 
-  db_username = var.db_username
 
   max_size         = 2
   min_size         = 1
   desired_capacity = 1
   instance_type    = "t3.small"
   key_name         = aws_key_pair.staging.key_name
+
+  db_username       = var.db_username
+  db_instance_class = "db.t3.micro"
 }
 
 resource "aws_key_pair" "staging" {

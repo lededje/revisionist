@@ -10,7 +10,7 @@ module "rds" {
   source = "../rds"
 
   environment   = var.environment
-  intance_class = "db.t2.micro"
+  intance_class = var.db_instance_class
   name          = "revisionist"
   vpc_id        = module.vpc.id
   vpc_cidr      = module.vpc.cidr_block
