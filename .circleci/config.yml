@@ -101,17 +101,17 @@ commands:
           name: Push images
           command: |
             docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/revisionist/<< parameters.key >>:${CIRCLE_SHA1}
-    deploy:
-      parameters:
-        env:
-          type: string
-      steps:
-        - run:
+  deploy:
+    parameters:
+      env:
+        type: string
+    steps:
+      - run:
           name: Configure environment
           command: |
             echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV
-        - checkout
-        - run:
+      - checkout
+      - run:
           name: Deploy
           command: |
             if [ "${CIRCLE_BRANCH}" == "master" ] then export ENVIRONMENT=production else export ENVIRONMENT=<< parameters.env >>; if
@@ -135,15 +135,15 @@ jobs:
           key: nginx
           dir: nginx
   deploy-production:
-    executer: default
+    executor: default
     steps:
       - deploy:
-        env: production
+          env: production
   deploy-staging:
-    executer: default
+    executor: default
     steps:
       - deploy:
-        env: staging
+          env: staging
 
 workflows:
   version: 2
