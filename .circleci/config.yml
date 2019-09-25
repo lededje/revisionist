@@ -114,7 +114,12 @@ commands:
       - run:
           name: Deploy
           command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ] then export ENVIRONMENT=production else export ENVIRONMENT=<< parameters.env >>; if
+            if [ "${CIRCLE_BRANCH}" == "master" ]
+              then
+                export ENVIRONMENT=production
+              else
+                export ENVIRONMENT=<< parameters.env >>
+            fi
             ./bin/ecs-deploy
               --service=webservices-<< parameters.env >>
               --task-name=<< parameters.env >>_revisionist
