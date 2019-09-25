@@ -6,6 +6,11 @@ variable "domain" {
   description = "The domain to register and validate"
 }
 
+variable "subdomain" {
+  description = "The subdomain to bind to"
+  default     = ""
+}
+
 variable "alb_dns_name" {
   description = "The load balancer name for the primary A record"
 }

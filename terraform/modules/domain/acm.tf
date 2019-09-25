@@ -1,5 +1,5 @@
 resource "aws_acm_certificate" "default" {
-  domain_name       = var.domain
+  domain_name       = local.full_domain
   validation_method = "DNS"
 
   tags = {

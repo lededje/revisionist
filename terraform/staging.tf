@@ -1,14 +1,15 @@
 module "staging" {
   source = "./modules/revisionist"
 
-  domain      = "staging.revisionist.dev"
+  domain      = "limitingfactor.io"
+  subdomain   = "staging"
   environment = "staging"
 
 
   max_size         = 2
   min_size         = 1
   desired_capacity = 1
-  instance_type    = "t3.small"
+  instance_type    = "t3.micro"
   key_name         = aws_key_pair.staging.key_name
 
   db_username       = var.db_username
