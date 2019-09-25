@@ -163,8 +163,12 @@ workflows:
             branches:
               only:
                 - master
+          requires:
+            - push-nginx
       - deploy-staging:
           filters:
             branches:
               only:
                 - staging
+          requires:
+            - push-nginx
