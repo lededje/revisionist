@@ -1,9 +1,10 @@
-defaults: &defaults
-  docker:
-    - image: docker:17.09-git
-  working_directory: /app/
-
 version: 2.1
+
+executors:
+  default:
+    working_directory: /app/
+    docker:
+      - image: docker:17.09-git
 
 commands:
   load_build_and_cache_image:
@@ -70,19 +71,100 @@ commands:
             docker cp << parameters.key >>:/app/coverage/lcov.info coverage.info
             sed -i -e 's:/app/:<< parameters.dir >>/:g' coverage.info
             ./bin/codecov.sh -f coverage.info
+  load_push_image:
+    parameters:
+      key:
+        type: string
+      dir:
+        type: string
+    steps:
+      - checkout
+      - setup_remote_docker
+      - restore_cache:
+          keys:
+            - dep-cache-<< parameters.key >>-{{ .Revision }}
+            - dep-cache-<< parameters.key >>-
+      - run:
+          name: Load Docker image layer cache
+          command: |
+            set +o pipefail
+            docker load -i /caches/<< parameters.key >>.tar | true
+      - run:
+          name: Login to aws repositories
+          command: |
+            `./bin/ecr-get-login`
+      - run:
+          name: Tag images
+          command: |
+            docker tag << parameters.key >>:latest ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/revisionist/<< parameters.key >>:${CIRCLE_SHA1}
+      - run:
+          name: Push images
+          command: |
+            docker push ${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/revisionist/<< parameters.key >>:${CIRCLE_SHA1}
+  deploy:
+    parameters:
+      env:
+        type: string
+    steps:
+      - run:
+          name: Configure environment
+          command: |
+            echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV
+      - checkout
+      - run:
+          name: Deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]
+              then
+                export ENVIRONMENT=production
+              else
+                export ENVIRONMENT=<< parameters.env >>
+            fi
+            ./bin/ecs-deploy
+              --service=webservices-<< parameters.env >>
+              --task-name=<< parameters.env >>_revisionist
+              --cluster=revisionist-default-<< parameters.env >>
+              --image="nginx=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/revisionist/nginx:${CIRCLE_SHA1}"
 
 jobs:
-  build-api:
-    <<: *defaults
+  build-nginx:
+    executor: default
     steps:
       - load_build_and_cache_image:
-        key: api
-        dir: api
-  test-api:
-    <<: *defaults
+          key: nginx
+          dir: nginx
+  push-nginx:
+    executor: default
     steps:
-      - load_test_image:
-          key: api
-          dir: api
-        requires:
-          - build-api
+      - load_push_image:
+          key: nginx
+          dir: nginx
+  deploy-production:
+    executor: default
+    steps:
+      - deploy:
+          env: production
+  deploy-staging:
+    executor: default
+    steps:
+      - deploy:
+          env: staging
+
+workflows:
+  version: 2
+  build_accept_deploy:
+    jobs:
+      - build-nginx
+      - push-nginx:
+          requires:
+            - build-nginx
+      - deploy-production:
+          filters:
+            branches:
+              only:
+                - master
+      - deploy-staging:
+          filters:
+            branches:
+              only:
+                - staging
