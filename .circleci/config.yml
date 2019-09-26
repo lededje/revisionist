@@ -106,10 +106,6 @@ commands:
       env:
         type: string
     steps:
-      - run:
-          name: Configure environment
-          command: |
-            echo 'export MY_ENV_VAR="FOO"' >> $BASH_ENV
       - checkout
       - run:
           name: Deploy
@@ -118,12 +114,12 @@ commands:
               then
                 export ENVIRONMENT=production
               else
-                export ENVIRONMENT=<< parameters.env >>
+                export ENVIRONMENT=staging
             fi
-            ./bin/ecs-deploy
-              --service=webservices-<< parameters.env >>
-              --task-name=<< parameters.env >>_revisionist
-              --cluster=revisionist-default-<< parameters.env >>
+            ./bin/ecs-deploy \
+              --service=webservices-${ENVIRONMENT} \
+              --task-name=${ENVIRONMENT}_revisionist \
+              --cluster=revisionist-default-${ENVIRONMENT} \
               --image="nginx=${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/revisionist/nginx:${CIRCLE_SHA1}"
 
 jobs:
@@ -163,8 +159,12 @@ workflows:
             branches:
               only:
                 - master
+          requires:
+            - push-nginx
       - deploy-staging:
           filters:
             branches:
               only:
                 - staging
+          requires:
+            - push-nginx

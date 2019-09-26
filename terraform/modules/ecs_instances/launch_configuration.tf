@@ -23,7 +23,6 @@ resource "aws_autoscaling_group" "asg" {
   force_delete         = true
   launch_configuration = aws_launch_configuration.launch.id
   vpc_zone_identifier  = var.subnets
-  target_group_arns    = var.target_groups
 
   tag {
     key                 = "Name"

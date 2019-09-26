@@ -37,6 +37,22 @@ resource "aws_alb_listener" "https" {
   }
 }
 
+resource "aws_lb_listener" "redirect_http_to_https" {
+  load_balancer_arn = aws_alb.alb.id
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type = "redirect"
+
+    redirect {
+      port        = 443
+      protocol    = "HTTPS"
+      status_code = "HTTP_301"
+    }
+  }
+}
+
 resource "aws_security_group" "alb" {
   name   = "${var.alb_name}_alb"
   vpc_id = var.vpc_id
@@ -52,6 +68,15 @@ resource "aws_security_group_rule" "https_from_anywhere" {
   type              = "ingress"
   from_port         = 443
   to_port           = 443
+  protocol          = "TCP"
+  cidr_blocks       = [var.allow_cidr_block]
+  security_group_id = aws_security_group.alb.id
+}
+
+resource "aws_security_group_rule" "http_from_anywhere" {
+  type              = "ingress"
+  from_port         = 80
+  to_port           = 80
   protocol          = "TCP"
   cidr_blocks       = [var.allow_cidr_block]
   security_group_id = aws_security_group.alb.id

@@ -8,6 +8,11 @@ variable "domain" {
   description = "The domain to register and validate"
 }
 
+variable "subdomain" {
+  description = "The subdomain to bind to"
+  default     = ""
+}
+
 # ECS
 
 variable "max_size" {

@@ -42,7 +42,9 @@ module "ecs" {
 module "domain" {
   source = "../domain"
 
-  domain      = var.domain
+  domain    = var.domain
+  subdomain = var.subdomain
+
   environment = var.environment
 
   alb_dns_name = module.ecs.alb_dns_name
