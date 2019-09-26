@@ -129,12 +129,36 @@ jobs:
       - load_build_and_cache_image:
           key: nginx
           dir: nginx
+  build-app:
+    executor: default
+    steps:
+      - load_build_and_cache_image:
+          key: app
+          dir: app
+  build-api:
+    executor: default
+    steps:
+      - load_build_and_cache_image:
+          key: api
+          dir: api
   push-nginx:
     executor: default
     steps:
       - load_push_image:
           key: nginx
           dir: nginx
+  push-app:
+    executor: default
+    steps:
+      - load_push_image:
+          key: app
+          dir: app
+  push-api:
+    executor: default
+    steps:
+      - load_push_image:
+          key: api
+          dir: api
   deploy-production:
     executor: default
     steps:
@@ -151,9 +175,32 @@ workflows:
   build_accept_deploy:
     jobs:
       - build-nginx
+      - build-api
+      - build-app
+      - push-api:
+          requires:
+            - build-api
+          filters:
+            branches:
+              only:
+                - master
+                - staging
+      - push-app:
+          requires:
+            - build-app
+          filters:
+            branches:
+              only:
+                - master
+                - staging
       - push-nginx:
           requires:
             - build-nginx
+          filters:
+            branches:
+              only:
+                - master
+                - staging
       - deploy-production:
           filters:
             branches:
@@ -168,3 +215,5 @@ workflows:
                 - staging
           requires:
             - push-nginx
+            - push-app
+            - push-api
