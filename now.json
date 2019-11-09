@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "alias": "revisionist.miles.dev",
+  "name": "limitingfactor",
   "env": {
     "NODE_ENV": "production",
     "DB_USER": "@db_user",
@@ -11,7 +11,6 @@
     "MAILGUN_API_DOMAIN": "@mailgun_api_domain",
     "SENTRY_API_DSN": "@sentry_api_dsn"
   },
-  "name": "revisionist",
   "builds": [
     { "src": "app/next.config.js", "use": "@now/next" },
     { "src": "api/routes/**/index.js", "use": "@now/node" }
@@ -20,8 +19,7 @@
     { "src": "/api/activate/(.*)", "dest": "/api/routes/activate?verificationToken=$1" },
     { "src": "/api/auth/(.*)", "dest": "/api/routes/auth?verificationToken=$1" },
     { "src": "/api/(.*)", "dest": "/api/routes/$1" },
-    { "src": "/auth/(.*)", "dest": "/app/auth?verificationToken=$1" },
-    { "src": "/activate/(.*)", "dest": "/app/activate?verificationToken=$1" },
+
     { "src": "/(.*)", "dest": "/app/$1" }
   ]
 }

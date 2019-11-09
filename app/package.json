@@ -1,56 +1,34 @@
 {
-  "name": "revisionist-app",
-  "engines": {
-    "node": "10.15.3"
-  },
+  "name": "app",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "next",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lededje/revisionist.git"
-  },
+  "keywords": [],
   "author": "",
-  "bugs": {
-    "url": "https://github.com/lededje/revisionist/issues"
-  },
-  "homepage": "https://github.com/lededje/revisionist#readme",
+  "license": "ISC",
   "dependencies": {
     "@zeit/next-css": "^1.0.1",
-    "chroma-js": "^2.0.3",
+    "chroma-js": "^2.1.0",
     "classnames": "^2.2.6",
     "cuid": "^2.1.6",
     "hoist-non-react-statics": "^3.3.0",
-    "lodash": "^4.17.13",
+    "lodash": "^4.17.15",
     "moment": "^2.24.0",
-    "next": "^8.0.3",
+    "next": "^9.1.3",
     "normalize.css": "^8.0.1",
     "prop-types": "^15.7.2",
-    "react": "^16.8.4",
+    "react": "^16.11.0",
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
-    "react-dom": "^16.8.4",
-    "react-redux": "^6.0.1",
-    "redux": "^4.0.1",
+    "react-dom": "^16.11.0",
+    "react-redux": "^7.1.3",
+    "redux": "^4.0.4",
     "redux-async-await": "^1.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "universal-fetch": "^1.0.0"
-  },
-  "devDependencies": {
-    "babel-eslint": "^10.0.1",
-    "eslint": "^5.16.0",
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^4.1.0",
-    "eslint-plugin-import": "^2.16.0",
-    "eslint-plugin-jsx-a11y": "^6.2.1",
-    "eslint-plugin-prettier": "^3.0.1",
-    "eslint-plugin-react": "^7.12.4",
-    "prettier": "^1.16.4"
-  },
-  "private": true
+  }
 }

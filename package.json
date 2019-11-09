@@ -1,25 +1,17 @@
 {
-  "name": "revisionist",
-  "engines": {
-    "node": "10.15.3"
-  },
+  "name": "limitingfactor",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
-    "now-build": "next build app && next export app -o dist",
-    "dev": "next app"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/lededje/revisionist.git"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "dependencies": {},
   "devDependencies": {
-    "now": "^15.6.0",
+    "now": "^16.4.4",
     "babel-eslint": "^10.0.1",
     "babel-jest": "^24.8.0",
     "enzyme": "^3.9.0",
@@ -34,7 +26,5 @@
     "jest": "^24.8.0",
     "jest-spec-reporter": "^1.0.6",
     "prettier": "^1.16.4"
-  },
-  "private": "true",
-  "dependencies": {}
+  }
 }

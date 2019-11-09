@@ -1,7 +1,7 @@
-const { send } = require('micro');
+const { send } = require("micro");
 
-const packageJson = require('../package.json');
-const { sequelize } = require('../models');
+const packageJson = require("../package.json");
+const { sequelize } = require("../models");
 
 module.exports = async (req, res) => {
   let databaseConnection;
